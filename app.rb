@@ -63,10 +63,10 @@ class App < Monster::Controller
     halt({
       status: :ko,
       reason: :invalid_beacon_minor
-    }.to_json) if beacon.length != 4
+    }.to_json) if beacon.length != 3
 
-    # monster = beacon[0..1]
-    # centre = beacon[2..3]
+    monster = beacon[0]
+    centre = beacon[1..2]
 
     # {
     #   status: :ok,
