@@ -1,0 +1,281 @@
+<!doctype html>
+<style type="text/css">
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    font-family: arial
+  }
+
+  fieldset {
+    width: 30%;
+    display: inline-block;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+  }
+
+  .row {
+    display: block;
+    margin: 5px 0;
+    padding: 0;
+  }
+
+  .title{
+    font-size: xx-large;
+  }
+
+  input[type=file]{
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+  }
+
+  input[type=file] + label,
+  input[type=submit] {
+    font-size: 1em;
+    font-weight: 700;
+    color: white;
+    background-color: black;
+    display: inline-block;
+    padding: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    border: 2px grey solid;
+  }
+
+  input[type=file]:focus + label,
+  input[type=file] + label:hover,
+  input[type=submit]:hover {
+    opacity: 0.5;
+  }
+
+  input[type=file] + label {
+    display: block;
+    width: 90%;
+    margin: 0 auto;
+  }
+
+  fieldset.sponsors {
+    width: 90%;
+    text-align: left;
+  }
+
+  fieldset.sponsors label{
+    display: block;
+  }
+
+  input[type=checkbox]{
+    vertical-align: middle;
+  }
+
+  select{
+    visibility: hidden;
+  }
+
+  input[type=checkbox]:checked + select{
+    visibility: visible;
+  }
+
+  input[type=text]{
+    width: 100%
+  }
+
+</style>
+
+<div class="row">
+  <fieldset>
+    <form action="/api/pincodes/upload/premiere" method="post" enctype="multipart/form-data">
+      <div class="row">
+        <div class="title">Premiere</div>
+      </div>
+
+      <div class="row">
+        <span >Disponibles:</span>
+        <span class="available premiere"></span>
+      </div>
+
+      <div class="row">
+        <input name="file" id="premiere_upload" type="file" accept=".csv">
+        <label for="premiere_upload">Elige un Archivo</label>
+      </div>
+
+      <div class="row">
+        <input type="submit" value="Añadir">
+      </div>
+    </form>
+  </fieldset><!--
+
+  --><fieldset>
+    <form action="/api/pincodes/upload/active" method="post" enctype="multipart/form-data">
+      <div class="row">
+        <div class="title">Active</div>
+      </div>
+
+      <div class="row">
+        <span >Disponibles:</span>
+        <span class="available active"></span>
+      </div>
+
+      <div class="row">
+        <input name="file" id="active_upload" type="file" accept=".csv">
+        <label for="active_upload">Elige un Archivo</label>
+      </div>
+
+      <div class="row">
+        <input type="submit" value="Añadir">
+      </div>
+    </form>
+  </fieldset><!--
+
+  --><fieldset>
+    <form action="/api/pincodes/upload/elite" method="post" enctype="multipart/form-data">
+      <div class="row">
+        <div class="title">Elite</div>
+      </div>
+
+      <div class="row">
+        <span >Disponibles:</span>
+        <span class="available elite"></span>
+      </div>
+
+      <div class="row">
+        <input name="file" id="elite_upload" type="file" accept=".csv">
+        <label for="elite_upload">Elige un Archivo</label>
+      </div>
+
+      <div class="row">
+        <input type="submit" value="Añadir">
+      </div>
+    </form>
+  </fieldset>
+</div>
+
+<div class="row">
+  <fieldset class="sponsors">
+    <label>
+      <span>
+      URL para canjear pincodes (%{pincode} será reemplazado por cada código):
+      </span>
+      <br>
+      <input type="text" placeholder="http://...">
+    </label>
+  </fieldset>
+</div>
+
+<div class="row">
+  <fieldset class="sponsors">
+    <form id="sponsors">
+    </form>
+  </fieldset>
+</div>
+
+
+<script type="text/javascript" >
+  var request = function(method, route, callback, body){
+    var xhr = new XMLHttpRequest()
+    xhr.open(method, route)
+    xhr.responseType = 'json'
+    xhr.addEventListener('load', function(event){
+      if (callback)
+        callback(event.target.response)
+    })
+    xhr.send(body)
+  }
+
+  var countPincodes = function(rank, elementSelector){
+    request('GET', '/api/pincodes/count/' + rank, function(response){
+      document.querySelector(elementSelector).innerHTML = response.count
+    })
+  }
+
+  var populateLogoSelector = function(){
+    request('GET', '/api/sponsor/list', function(response){
+      Object.keys(response).forEach(function(sponsorKey){
+        var sponsor = response[sponsorKey]
+        var label = document.createElement('label')
+        var input = document.createElement('input')
+        var select = document.createElement('select')
+
+        ![1,2,3,4,5].forEach(function(order){
+          select.dataset.sponsor = sponsorKey
+          var option = document.createElement('option')
+          option.value = order
+          option.innerHTML = order
+          select.appendChild(option)
+        })
+
+        input.type = 'checkbox'
+        input.value = sponsorKey
+        label.addEventListener('click', function(event){
+          var selections = document.querySelectorAll('#sponsors input:checked')
+
+          if (selections.length > 5)
+            event.preventDefault()
+        })
+
+        label.appendChild(input)
+        label.appendChild(select)
+        label.innerHTML += sponsor.name
+
+        document.querySelector('#sponsors').appendChild(label)
+      })
+
+      var send = document.createElement('input')
+      send.type = 'submit'
+      send.value = 'Guardar'
+      send.addEventListener('click', function(event){
+        event.preventDefault()
+        var formData = new FormData()
+        var selections = document.querySelectorAll(':checked + select')
+
+        var images = Array.prototype.map.call(selections, function(selection){
+          return {
+            sponsor: selection.dataset.sponsor,
+            order: selection.value
+          }
+        }).sort(function(a, b){
+          return a.order - b.order
+        }).forEach(function(selection){
+          formData.append('images[]', selection.sponsor)
+        })
+
+        var redemptionUrl = document.querySelector('input[type=text]').value
+        formData.append('url_template', redemptionUrl)
+
+        request('PUT', '/api/sponsor/the_sponsor', function(response){
+          console.log(response)
+          document.location.reload()
+        }, formData)
+      })
+
+      request('GET', '/api/sponsor/the_sponsor/selections', function(response){
+        response.list.split('').forEach(function(selection, index){
+          var checkbox = document.querySelector('[value='+selection+']')
+          checkbox.checked = true
+
+          var select = document.querySelector('[data-sponsor='+selection+']')
+          select.value = index + 1
+        })
+
+        document.querySelector('input[type=text]').value = response.url
+      })
+
+      document.querySelector('body').appendChild(send)
+    })
+  }
+
+  document.addEventListener('DOMContentLoaded', function(){
+
+
+    countPincodes('premiere', '.available.premiere')
+    countPincodes('active', '.available.active')
+    countPincodes('elite', '.available.elite')
+
+    populateLogoSelector()
+  })
+</script>
