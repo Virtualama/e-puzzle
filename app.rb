@@ -50,18 +50,30 @@ class App < Monster::Controller
     }.to_json
   end
 
-  get '/play/:user_id/:beacon_minor', provides: :json do |player, beacon|
+  get '/challenge/:user_id/:beacon_minor', provides: :json do |player, beacon|
+    {
+      asset: 'https://www.youtube.com/watch?v=oHg5SJYRHA0',
+      type: :video,
+      time: 10
+    }.to_json
+  end
+
+  get '/unlock/:user_id/:beacon_minor', provides: :json do |player, beacon|
     halt({
       status: :ko,
       reason: :invalid_beacon_minor
     }.to_json) if beacon.length != 4
 
-    monster = beacon[0..1]
-    centre = beacon[2..3]
+    # monster = beacon[0..1]
+    # centre = beacon[2..3]
+
+    # {
+    #   status: :ok,
+    #   world: request.url.gsub(request.path, "/worlds/bubble.html?player=#{player}&centre=#{centre}&monster=#{monster}")
+    # }.to_json
 
     {
-      status: :ok,
-      world: request.url.gsub(request.path, "/worlds/bubble.html?player=#{player}&centre=#{centre}&monster=#{monster}")
+      status: :ok
     }.to_json
   end
 
