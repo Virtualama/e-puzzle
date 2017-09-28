@@ -54,7 +54,8 @@ class App < Monster::Controller
     {
       asset: 'https://www.youtube.com/watch?v=oHg5SJYRHA0',
       type: :video,
-      time: 10
+      time: 10,
+      unlock_url: request.url.gsub(request.path, "/unlock/#{player}/#{beacon}")
     }.to_json
   end
 
