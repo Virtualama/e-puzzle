@@ -29,7 +29,9 @@ Captures = Monster::CRUD.for Repos::Captures, '/captures' do
 
     halt ko(reason: :locked) if LOCKS.map{ |lock| lock[:tile] }.include? params[:tile].to_i
 
-    settings.repo.save params
+    settings.repo.save params.merge(
+      tile: params[:tile].to_i
+    )
 
     ok
   end
