@@ -41,6 +41,12 @@ module Monster
                 status: :ok
               }.merge(message).to_json
             end
+
+            def ko reason = {}
+              {
+                status: :ko
+              }.merge(reason).to_json
+            end
           end
 
           post settings.prefix + '/?', provides: :json do

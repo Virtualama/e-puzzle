@@ -51,13 +51,24 @@ class App < Monster::Controller
   end
 
   get '/challenge/:user_id/:beacon_minor', provides: :json do |player, beacon|
-    {
-      asset: 'https://www.youtube.com/watch?v=oHg5SJYRHA0',
-      asset: request.url.gsub(request.path, '/images/monster.jpg'),
-      type: :image,
-      time: 10,
-      unlock_url: request.url.gsub(request.path, "/unlock/#{player}/#{beacon}")
-    }.to_json
+    halt({
+      status: :ko,
+      reason: :invalid_beacon_minor
+    }.to_json) if beacon.length != 3
+
+    lock = beacon[0].to_i - 1
+    centre = beacon[1..2]
+
+    halt({
+      status: :ko,
+      reason: :invalid_beacon_minor
+    }.to_json) if (lock < 0 || lock > 3)
+
+    this_lock = Repos::Captures::LOCKS[lock]
+    this_lock.merge({
+      asset: url(this_lock[:asset]),
+      unlock_url: url("/unlock/#{player}/#{beacon}")
+    }) .to_json
   end
 
   get '/unlock/:user_id/:beacon_minor', provides: :json do |player, beacon|
@@ -66,13 +77,16 @@ class App < Monster::Controller
       reason: :invalid_beacon_minor
     }.to_json) if beacon.length != 3
 
-    monster = beacon[0]
+    lock = beacon[0].to_i - 1
     centre = beacon[1..2]
 
-    # {
-    #   status: :ok,
-    #   world: request.url.gsub(request.path, "/worlds/bubble.html?player=#{player}&centre=#{centre}&monster=#{monster}")
-    # }.to_json
+    halt({
+      status: :ko,
+      reason: :invalid_beacon_minor
+    }.to_json) if (lock < 0 || lock > 3)
+
+
+    Repos::Captures.save image: 'otter', user: player, tile: Repos::Captures::LOCKS[lock][:tile]
 
     {
       status: :ok
