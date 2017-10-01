@@ -23,14 +23,18 @@ Captures = Monster::CRUD.for Repos::Captures, '/captures' do
   }]
 
   post settings.prefix + '/?', provides: :json do
-    captures = settings.repo.find(user: params[:user], tile: params[:tile], image: params[:image]).length
+    captured_tile = params[:tile].to_i
+
+    captures = settings.repo.find(user: params[:user], tile: captured_tile, image: params[:image]).length
 
     halt ok if captures > 0
 
-    halt ko(reason: :locked) if LOCKS.map{ |lock| lock[:tile] }.include? params[:tile].to_i
+    locked_tile = LOCKS.map{ |lock| lock[:tile] }.include? captured_tile
+
+    halt ko(reason: :locked) if locked_tile
 
     settings.repo.save params.merge(
-      tile: params[:tile].to_i
+      tile: captured_tile
     )
 
     ok

@@ -17,7 +17,7 @@ describe 'API - Captures' do
   }
 
   let(:tile_id){
-    'the_tile_id'
+    5
   }
 
   it 'adds a captured tile on success' do
