@@ -20,15 +20,15 @@ describe 'Pincode' do
     expect(created_pincode.id).to match(uuid_regex)
   end
 
-  it 'is not assigned at creation' do
-    created_pincode = Pincode.new code: 'aabbcc'
-
-    expect(created_pincode.assigned).to eq(false)
-  end
-
   it 'id must be a valid uuid' do
     expect {
       Pincode.new code: 'aabbcc', id: 'xxx'
     }.to raise_error(StandardError, /:id violates constraints/)
+  end
+
+  it 'is not assigned at creation' do
+    created_pincode = Pincode.new code: 'aabbcc'
+
+    expect(created_pincode.assigned).to eq(false)
   end
 end
