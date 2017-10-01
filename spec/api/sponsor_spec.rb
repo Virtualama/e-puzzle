@@ -1,10 +1,22 @@
-xdescribe 'API - Sponsor' do
-  before(:each){
+describe 'API - Sponsor' do
+  before(:each){ |test|
     Repos::Sponsor.save(
       url_template: 'http://xxx.yyy.zzz?code=%{pincode}',
-      images: []
-    )
+      image_url: 'some_image_url',
+      image_hash: 'some_image_url_hash'
+    ) unless test.metadata[:no_create]
   }
+
+  it 'cannot be more than one' do
+    expect{
+      post '/api/sponsor'
+    }.to raise_error(SponsorWasCreated)
+  end
+
+  it 'gets created if not exists at update', :no_create do
+    put '/api/sponsor/the_sponsor', url_template: 'xxx'
+    expect(Repos::Sponsor.all.length).to eq(1)
+  end
 
   it 'url template can be changed' do
     put '/api/sponsor/the_sponsor', url_template: 'xxx'
@@ -13,57 +25,33 @@ xdescribe 'API - Sponsor' do
     expect(Repos::Sponsor.find(id: :the_sponsor).first.url_template).to eq('xxx')
   end
 
-  it 'images array can be changed' do
-    put '/api/sponsor/the_sponsor', images: [:one, :two]
+  it 'image url can be changed' do
+    new_image_url = 'new_image_url'
+
+    put '/api/sponsor/the_sponsor', image_url: new_image_url
     expect(parsed_response[:status]).to eq('ok')
 
-    expect(Repos::Sponsor.find(id: :the_sponsor).first.images).to eq(['one', 'two'])
+    expect(Repos::Sponsor.find(id: :the_sponsor).first.image_url).to eq(new_image_url)
   end
 
-  it 'returns selected images' do
-    put '/api/sponsor/the_sponsor', images: [:one, :two]
+  it 'image hash depends on image_url' do
+    new_image_url = 'new_image_url'
+
+    require 'digest'
+    new_image_url_hash = Digest::MD5.hexdigest(new_image_url)
+
+    put '/api/sponsor/the_sponsor', image_url: new_image_url
+    expect(parsed_response[:status]).to eq('ok')
+
+    expect(Repos::Sponsor.find(id: :the_sponsor).first.image_url).to eq(new_image_url)
+    expect(Repos::Sponsor.find(id: :the_sponsor).first.image_hash).to eq(new_image_url_hash)
+  end
+
+  it 'returns selected image image_url & url_template' do
+    put '/api/sponsor/the_sponsor', image_url: 'xxx'
     expect(parsed_response[:status]).to eq('ok')
 
     get '/api/sponsor/the_sponsor/selections'
-    expect(parsed_response[:list]).to eq('onetwo')
-  end
-
-  xit 'composes image according to selection' do
-    get '/api/sponsor/image'
-  end
-
-  describe 'Copyright' do
-    it 'returns empty string for trademark without notice' do
-      expect(ImagesService.copyright_for 'F').to eq('')
-    end
-
-    it 'returns sponsor for a trademark' do
-      nestea_copyright_text = 'Nestea es una marca registrada de Société des Produits Nestlé S.A licenciada a Beverage Partners Worldwide (Europa) A.G.'
-      expect(ImagesService.copyright_for 'D').to eq(nestea_copyright_text)
-    end
-
-    it 'deduplicates copyright texts' do
-      both_trademarks_text = 'Coca-Cola y Fanta son marcas registradas de The Coca-Cola Company.'
-
-      expect(ImagesService.copyright_for 'AB').to eq(both_trademarks_text)
-    end
-
-    it 'trademarks are separated with commas, last with "y"' do
-      both_trademarks_text = 'Coca-Cola, Fanta y Aquarius son marcas registradas de The Coca-Cola Company.'
-
-      expect(ImagesService.copyright_for 'ABC').to eq(both_trademarks_text)
-    end
-
-    it 'no copyright trademarks can be mixed with copyright ones' do
-      both_trademarks_text = 'Coca-Cola y Fanta son marcas registradas de The Coca-Cola Company.'
-
-      expect(ImagesService.copyright_for 'ABF').to eq(both_trademarks_text)
-    end
-
-    it 'different copyrights are separated with a space' do
-      both_trademarks_text = 'Coca-Cola es marca registrada de The Coca-Cola Company. Royal Bliss y su logotipo son marcas registradas de The Coca-Cola Company.'
-
-      expect(ImagesService.copyright_for 'AJ').to eq(both_trademarks_text)
-    end
+    expect(parsed_response[:image_url]).to eq('xxx')
   end
 end

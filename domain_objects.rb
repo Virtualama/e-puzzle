@@ -5,12 +5,12 @@ require 'dry-types'
 module Types
   include Dry::Types.module
 
-  Rank = Types::String.enum(*%w(premiere active elite))
   Assigned = Types::Bool.default(false)
   Now = Types::Form::Time.default { ::Time.now }
   Id = Types::String.constrained(
     format: /^\h{8}-\h{4}-[1-5]\h{3}-[89ab]\h{3}-\h{12}$/
   ).default { SecureRandom.uuid }
+  LockType = Types::String.enum(*%w(image video))
 end
 
 class DomainObject < Dry::Struct
@@ -40,7 +40,7 @@ class Capture < DomainObject
   constructor_type :strict_with_defaults
 
   attribute :user, Types::String
-  attribute :tile, Types::String
+  attribute :tile, Types::Coercible::Int
   attribute :image, Types::String
   attribute :created_at, Types::Now
 end
@@ -60,4 +60,15 @@ class Sponsor < DomainObject
   attribute :url_template, Types::String
   attribute :image_url, Types::String
   attribute :image_hash, Types::String
+end
+
+class Lock < DomainObject
+  constructor_type :strict_with_defaults
+
+  attribute :id, Types::Id
+  attribute :image, Types::String
+  attribute :tile, Types::Coercible::Int
+  attribute :type, Types::LockType
+  attribute :time, Types::Coercible::Int
+  attribute :asset, Types::String
 end

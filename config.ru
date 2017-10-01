@@ -5,6 +5,7 @@ require './repos'
 require './controllers/pincodes'
 require './controllers/captures'
 require './controllers/sponsors'
+require './controllers/locks'
 require './app'
 
 use Rack::Cors do
@@ -20,7 +21,8 @@ map '/api' do
   use Captures
   use Users
   use Pincodes
-  # use Sponsors
+  use Sponsors
+  use Locks
   run lambda { |_|
     [200, {}, '_']
   }
