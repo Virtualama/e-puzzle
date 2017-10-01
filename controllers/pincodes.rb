@@ -13,10 +13,9 @@ Pincodes = Monster::CRUD.for Repos::Pincodes, '/pincodes' do
     end
   end
 
-  get settings.prefix + '/count/:___shit__', provides: :json do |___shit__|
+  get settings.prefix + '/count/?', provides: :json do
     {
-      ___shit__: ___shit__,
-      count: Repos::Pincodes.collection.count(___shit__: ___shit__, assigned: false)
+      count: Repos::Pincodes.collection.count(assigned: false)
     }.to_json
   end
 

@@ -9,7 +9,7 @@
   }
 
   fieldset {
-    width: 30%;
+    width: 90%;
     display: inline-block;
     text-align: center;
     margin: 0;
@@ -60,12 +60,12 @@
     margin: 0 auto;
   }
 
-  fieldset.sponsors {
+  fieldset.options {
     width: 90%;
     text-align: left;
   }
 
-  fieldset.sponsors label{
+  fieldset.options label{
     display: block;
   }
 
@@ -85,67 +85,29 @@
     width: 100%
   }
 
+  img.image_url {
+    width: 300px;
+    height: 300px;
+    border: 1px black dotted;
+  }
+
 </style>
 
 <div class="row">
   <fieldset>
-    <form action="/api/pincodes/upload/premiere" method="post" enctype="multipart/form-data">
+    <form action="/api/pincodes/upload" method="post" enctype="multipart/form-data">
       <div class="row">
-        <div class="title">Premiere</div>
+        <div class="title">Pincodes</div>
       </div>
 
       <div class="row">
         <span >Disponibles:</span>
-        <span class="available premiere"></span>
+        <span class="available"></span>
       </div>
 
       <div class="row">
-        <input name="file" id="premiere_upload" type="file" accept=".csv">
-        <label for="premiere_upload">Elige un Archivo</label>
-      </div>
-
-      <div class="row">
-        <input type="submit" value="Añadir">
-      </div>
-    </form>
-  </fieldset><!--
-
-  --><fieldset>
-    <form action="/api/pincodes/upload/active" method="post" enctype="multipart/form-data">
-      <div class="row">
-        <div class="title">Active</div>
-      </div>
-
-      <div class="row">
-        <span >Disponibles:</span>
-        <span class="available active"></span>
-      </div>
-
-      <div class="row">
-        <input name="file" id="active_upload" type="file" accept=".csv">
-        <label for="active_upload">Elige un Archivo</label>
-      </div>
-
-      <div class="row">
-        <input type="submit" value="Añadir">
-      </div>
-    </form>
-  </fieldset><!--
-
-  --><fieldset>
-    <form action="/api/pincodes/upload/elite" method="post" enctype="multipart/form-data">
-      <div class="row">
-        <div class="title">Elite</div>
-      </div>
-
-      <div class="row">
-        <span >Disponibles:</span>
-        <span class="available elite"></span>
-      </div>
-
-      <div class="row">
-        <input name="file" id="elite_upload" type="file" accept=".csv">
-        <label for="elite_upload">Elige un Archivo</label>
+        <input name="file" id="upload" type="file" accept=".csv">
+        <label for="upload">Elige un Archivo</label>
       </div>
 
       <div class="row">
@@ -156,24 +118,29 @@
 </div>
 
 <div class="row">
-  <fieldset class="sponsors">
+  <fieldset class="options">
     <label>
       <span>
       URL para canjear pincodes (%{pincode} será reemplazado por cada código):
       </span>
       <br>
-      <input type="text" placeholder="http://...">
+      <input class="url_template" type="text" placeholder="http://...">
     </label>
   </fieldset>
 </div>
 
 <div class="row">
-  <fieldset class="sponsors">
-    <form id="sponsors">
-    </form>
+  <fieldset class="options">
+    <label>
+      <span>
+      URL con la imagen a resolver (ha de ser cuadrada):
+      </span>
+      <br>
+      <input class="image_url" type="text" placeholder="http://...">
+      <img class="image_url">
+    </label>
   </fieldset>
 </div>
-
 
 <script type="text/javascript" >
   var request = function(method, route, callback, body){
@@ -187,95 +154,44 @@
     xhr.send(body)
   }
 
-  var countPincodes = function(rank, elementSelector){
-    request('GET', '/api/pincodes/count/' + rank, function(response){
+  var countPincodes = function(elementSelector){
+    request('GET', '/api/pincodes/count/', function(response){
       document.querySelector(elementSelector).innerHTML = response.count
     })
   }
 
-  var populateLogoSelector = function(){
-    request('GET', '/api/sponsor/list', function(response){
-      Object.keys(response).forEach(function(sponsorKey){
-        var sponsor = response[sponsorKey]
-        var label = document.createElement('label')
-        var input = document.createElement('input')
-        var select = document.createElement('select')
+var showCurrentOptions = function(){
+    var send = document.createElement('input')
+    send.type = 'submit'
+    send.value = 'Guardar'
+    send.addEventListener('click', function(event){
+      event.preventDefault()
+      var formData = new FormData()
 
-        ![1,2,3,4,5].forEach(function(order){
-          select.dataset.sponsor = sponsorKey
-          var option = document.createElement('option')
-          option.value = order
-          option.innerHTML = order
-          select.appendChild(option)
-        })
+      var redemptionUrl = document.querySelector('input.url_template[type=text]').value
+      formData.append('url_template', redemptionUrl)
 
-        input.type = 'checkbox'
-        input.value = sponsorKey
-        label.addEventListener('click', function(event){
-          var selections = document.querySelectorAll('#sponsors input:checked')
+      var imageUrl = document.querySelector('input.image_url[type=text]').value
+      formData.append('image_url', imageUrl)
 
-          if (selections.length > 5)
-            event.preventDefault()
-        })
-
-        label.appendChild(input)
-        label.appendChild(select)
-        label.innerHTML += sponsor.name
-
-        document.querySelector('#sponsors').appendChild(label)
-      })
-
-      var send = document.createElement('input')
-      send.type = 'submit'
-      send.value = 'Guardar'
-      send.addEventListener('click', function(event){
-        event.preventDefault()
-        var formData = new FormData()
-        var selections = document.querySelectorAll(':checked + select')
-
-        var images = Array.prototype.map.call(selections, function(selection){
-          return {
-            sponsor: selection.dataset.sponsor,
-            order: selection.value
-          }
-        }).sort(function(a, b){
-          return a.order - b.order
-        }).forEach(function(selection){
-          formData.append('images[]', selection.sponsor)
-        })
-
-        var redemptionUrl = document.querySelector('input[type=text]').value
-        formData.append('url_template', redemptionUrl)
-
-        request('PUT', '/api/sponsor/the_sponsor', function(response){
-          console.log(response)
-          document.location.reload()
-        }, formData)
-      })
-
-      request('GET', '/api/sponsor/the_sponsor/selections', function(response){
-        response.list.split('').forEach(function(selection, index){
-          var checkbox = document.querySelector('[value='+selection+']')
-          checkbox.checked = true
-
-          var select = document.querySelector('[data-sponsor='+selection+']')
-          select.value = index + 1
-        })
-
-        document.querySelector('input[type=text]').value = response.url
-      })
-
-      document.querySelector('body').appendChild(send)
+      request('PUT', '/api/sponsor/the_sponsor', function(response){
+        console.log(response)
+        document.location.reload()
+      }, formData)
     })
+
+    request('GET', '/api/sponsor/the_sponsor/selections', function(response){
+      document.querySelector('input.url_template[type=text]').value = response.url_template
+      document.querySelector('input.image_url[type=text]').value = response.image_url
+      document.querySelector('img.image_url').src = response.image_url
+    })
+
+    document.querySelector('body').appendChild(send)
   }
 
   document.addEventListener('DOMContentLoaded', function(){
+    countPincodes('.available')
 
-
-    countPincodes('premiere', '.available.premiere')
-    countPincodes('active', '.available.active')
-    countPincodes('elite', '.available.elite')
-
-    populateLogoSelector()
+    showCurrentOptions()
   })
 </script>
