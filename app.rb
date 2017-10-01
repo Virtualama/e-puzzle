@@ -51,6 +51,7 @@ class App < Monster::Controller
   end
 
   get '/challenge/:user_id/:beacon_minor', provides: :json do |player, beacon|
+
     halt({
       status: :ko,
       reason: :invalid_beacon_minor

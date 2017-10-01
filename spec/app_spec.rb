@@ -27,37 +27,29 @@ describe App do
     end
   end
 
-  describe 'play' do
-    it 'gives world for player, centre and monster' do
-      centre = 'WX'
-      monster = 'YZ'
-
-      beacon = monster + centre
-      player = '654321'
-
-      get "/play/#{player}/#{beacon}"
-      expect(parsed_response[:status]).to eq('ok')
-
-      expect(parsed_response[:world]).to include(player)
-      expect(parsed_response[:world]).to include(centre)
-      expect(parsed_response[:world]).to include(monster)
-
-      query = url_query_to_hash parsed_response[:world]
-
-      expect(query[:centre]).to eq(centre)
-      expect(query[:monster]).to eq(monster)
-      expect(query[:player]).to eq(player)
-    end
-
+  describe 'challenge' do
     it 'retuns error if invalid beacon given' do
       player = 'any_player_id'
       beacon = 'an_invalid_format_beacon'
 
-      get "/play/#{player}/#{beacon}"
+      get "/challenge/#{player}/#{beacon}"
 
       expect(parsed_response[:status]).to eq('ko')
       expect(parsed_response[:reason]).to eq('invalid_beacon_minor')
     end
+
+    it 'gives an asset & unlock_url for a lock' do
+      centre = 'WX'
+      lock = '1'
+
+      beacon = lock + centre
+      player = '654321'
+
+      get "/challenge/#{player}/#{beacon}"
+
+      expect(parsed_response.keys).to include('asset', 'unlock_url')
+    end
+
   end
 end
 
