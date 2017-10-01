@@ -59,4 +59,35 @@ describe 'API - Captures' do
     expect(Repos::Captures.find(image: :the_image_hash).length).to eq 1
     expect(Repos::Captures.find(image: :other_image_hash).length).to eq 1
   end
+
+  it 'fails when captured tile is locked' do
+    the_locked_tile = 3
+    any_unlocked_tile = 5
+
+    Repos::Locks.save(
+      image: :the_image_hash,
+      tile: the_locked_tile,
+      asset: 'xxx',
+      type: 'image',
+      time: 7
+    )
+
+    post "/api/captures/", tile: any_unlocked_tile, user: user_id, image: :the_image_hash
+    expect(parsed_response[:status]).to eq('ok')
+
+    post "/api/captures/", tile: the_locked_tile, user: user_id, image: :the_image_hash
+    expect(parsed_response[:status]).to eq('ko')
+    expect(parsed_response[:reason]).to eq('locked')
+  end
+
+  it 'assigns a pincode to a user on 15th' do
+    Repos::Pincodes.save code: 'pincode'
+
+    (1..15).each do |idx|
+      post "/api/captures/", tile: idx, user: user_id, image: :the_image_hash
+    end
+
+    expect(assigned_pincode[user_id].code).to eq('pincode')
+  end
+
 end
