@@ -1,18 +1,19 @@
 <!doctype html>
+<link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
 <style type="text/css">
   * {
     box-sizing: border-box;
   }
 
-  html {
-    font-family: arial
+  body{
+    font-family: 'Montserrat', sans-serif;
   }
 
   fieldset {
     width: 90%;
     display: inline-block;
     text-align: center;
-    margin: 0;
+    margin: 5px 5%;
     padding: 0;
   }
 
@@ -72,10 +73,6 @@
     vertical-align: middle;
   }
 
-  select{
-    visibility: hidden;
-  }
-
   input[type=checkbox]:checked + select{
     visibility: visible;
   }
@@ -84,15 +81,25 @@
     width: 90%
   }
 
-  img.image_url {
-    /*display: block;*/
+  div.img.image_url {
+    display: inline-block;
     width: 300px;
     height: 300px;
     border: 1px black dotted;
+    background-size: cover;
   }
 
-  img[src=""]{
+  div.img{
     background-color: lightgrey;
+  }
+
+  input.asset {
+    width: 70%;
+  }
+
+  input.time,
+  input.tile{
+    width: 10%
   }
 
 </style>
@@ -123,6 +130,7 @@
 
 <div class="row">
   <fieldset class="options">
+    <span class="title">URLs</span>
     <div class="row">
       <label>
         <span>
@@ -140,7 +148,8 @@
         <br>
         <input class="image_url" type="text" placeholder="http://...">
         <div class="row">
-          <img class="image_url">
+          <!-- <img class="image_url"> -->
+          <div class="img image_url"></div>
           <div class="row">
             <input class="horizontal" type="number"> x
             <input class="vertical" type="number">
@@ -150,6 +159,84 @@
     </div>
   </fieldset>
 </div>
+
+<div class="row">
+  <fieldset class="beacons">
+    <div class="row">
+      <span class="title">Desbloqueo de balizas</span>
+
+      <div class="row">
+        <label class="beacon">
+          <div class="row">
+            <span class="title">1</span>
+            tipo: <select class="type">
+              <option value="image">imagen</option>
+              <option value="video">video</option>
+            </select>
+            loseta: <input class="tile" type="number" min=1 max=16>
+            tiempo: <input class="time" type="number" min=1 max=60> seg.
+          </div>
+          <div class="row">
+            <input class="asset" type="text" placeholder="http://...">
+          </div>
+        </label>
+      </div>
+
+      <div class="row">
+        <label class="beacon">
+          <div class="row">
+            <span class="title">2</span>
+            tipo: <select class="type">
+              <option value="image">imagen</option>
+              <option value="video">video</option>
+            </select>
+            loseta: <input class="tile" type="number" min=1 max=16>
+            tiempo: <input class="time" type="number" min=1 max=60> seg.
+          </div>
+          <div class="row">
+            <input class="asset" type="text" placeholder="http://...">
+          </div>
+        </label>
+      </div>
+
+      <div class="row">
+        <label class="beacon">
+          <div class="row">
+            <span class="title">3</span>
+            tipo: <select class="type">
+              <option value="image">imagen</option>
+              <option value="video">video</option>
+            </select>
+            loseta: <input class="tile" type="number" min=1 max=16>
+            tiempo: <input class="time" type="number" min=1 max=60> seg.
+          </div>
+          <div class="row">
+            <input class="asset" type="text" placeholder="http://...">
+          </div>
+        </label>
+      </div>
+
+      <div class="row">
+        <label class="beacon">
+          <div class="row">
+            <span class="title">4</span>
+            tipo: <select class="type">
+              <option value="image">imagen</option>
+              <option value="video">video</option>
+            </select>
+            loseta: <input class="tile" type="number" min=1 max=16>
+            tiempo: <input class="time" type="number" min=1 max=60> seg.
+          </div>
+          <div class="row">
+            <input class="asset" type="text" placeholder="http://...">
+          </div>
+        </label>
+      </div>
+
+    </div>
+  </fieldset>
+</div>
+
 
 <script type="text/javascript" >
   var request = function(method, route, callback, body){
@@ -169,36 +256,66 @@
     })
   }
 
-var showCurrentOptions = function(){
+  var showCurrentLocks = function(){
     var send = document.createElement('input')
     send.type = 'submit'
     send.value = 'Guardar'
     send.addEventListener('click', function(event){
       event.preventDefault()
-      var formData = new FormData()
+      var sponsorFormData = new FormData()
+
+      request('GET', '/api/locks', function(response){
+        console.log(response)
+      })
+
+      Array.prototype.forEach.call(document.querySelectorAll('.beacon'), function(x){
+        var formData = new FormData()
+        formData.append('type', x.querySelector('.type').value)
+        formData.append('time', x.querySelector('.time').value)
+        formData.append('asset', x.querySelector('.asset').value)
+        formData.append('tile', x.querySelector('.tile').value)
+        formData.append('image', 'all')
+
+        console.log(formData)
+        request('POST', '/api/locks', function(response){
+          console.log('sent one formData')
+        }, formData)
+      })
+    })
+
+    document.querySelector('.beacons').appendChild(send)
+  }
+
+  var showCurrentOptions = function(){
+    var send = document.createElement('input')
+    send.type = 'submit'
+    send.value = 'Guardar'
+    send.addEventListener('click', function(event){
+      event.preventDefault()
+      var sponsorFormData = new FormData()
 
       var redemptionUrl = document.querySelector('input.url_template[type=text]').value
-      formData.append('url_template', redemptionUrl)
+      sponsorFormData.append('url_template', redemptionUrl)
 
       var imageUrl = document.querySelector('input.image_url[type=text]').value
-      formData.append('image_url', imageUrl)
+      sponsorFormData.append('image_url', imageUrl)
 
       var sizeHorizontal = document.querySelector('input.horizontal').value
-      formData.append('size[horizontal]', sizeHorizontal)
+      sponsorFormData.append('size[horizontal]', sizeHorizontal)
 
       var sizeVertical = document.querySelector('input.vertical').value
-      formData.append('size[vertical]', sizeVertical)
+      sponsorFormData.append('size[vertical]', sizeVertical)
 
       request('PUT', '/api/sponsor/the_sponsor', function(response){
         console.log(response)
         document.location.reload()
-      }, formData)
+      }, sponsorFormData)
     })
 
     request('GET', '/api/sponsor/the_sponsor/selections', function(response){
       document.querySelector('input.url_template[type=text]').value = response.url_template
       document.querySelector('input.image_url[type=text]').value = response.image_url
-      document.querySelector('img.image_url').src = response.image_url
+      document.querySelector('div.img.image_url').style.backgroundImage = 'url('+ response.image_url + ')'
       document.querySelector('input.horizontal').value = response.size.horizontal
       document.querySelector('input.vertical').value = response.size.vertical
     })
@@ -210,5 +327,6 @@ var showCurrentOptions = function(){
     countPincodes('.available')
 
     showCurrentOptions()
+    showCurrentLocks()
   })
 </script>
