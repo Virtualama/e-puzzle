@@ -1,11 +1,5 @@
 Sponsors = Monster::CRUD.for Repos::Sponsor, '/sponsor' do
 
-  class SponsorWasCreated < StandardError
-    def message
-      'Only can be one sponsor at a time'
-    end
-  end
-
   class ImageHasher
     def self.hash url
       require 'digest'
@@ -14,7 +8,7 @@ Sponsors = Monster::CRUD.for Repos::Sponsor, '/sponsor' do
   end
 
   post settings.prefix + '/?', provides: :json do
-    raise SponsorWasCreated
+    ko(reason: :sponsor_was_created)
   end
 
   put settings.prefix + '/the_sponsor', provides: :json do

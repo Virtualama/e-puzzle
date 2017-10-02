@@ -8,9 +8,10 @@ describe 'API - Sponsor' do
   }
 
   it 'cannot be more than one' do
-    expect{
-      post '/api/sponsor'
-    }.to raise_error(SponsorWasCreated)
+    post '/api/sponsor'
+
+    expect(parsed_response[:status]).to eq('ko')
+    expect(parsed_response[:reason]).to eq('sponsor_was_created')
   end
 
   it 'gets created if not exists at update', :no_create do
