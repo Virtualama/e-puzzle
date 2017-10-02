@@ -86,8 +86,8 @@ class App < Monster::Controller
       reason: :invalid_beacon_minor
     }.to_json) if (lock < 0 || lock > 3)
 
-
-    Repos::Captures.save image: 'new_otter', user: player, tile: Repos::Captures::LOCKS[lock][:tile]
+    image_hash = Repos::Sponsor.find(id: :the_sponsor).first.image_hash
+    Repos::Captures.save image: image_hash, user: player, tile: Repos::Captures::LOCKS[lock][:tile]
 
     {
       status: :ok

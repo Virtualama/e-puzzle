@@ -1,4 +1,15 @@
 describe 'API - Captures' do
+  before(:each){ |test|
+    Repos::Sponsor.save(
+      url_template: 'http://xxx.yyy.zzz?code=%{pincode}',
+      image_url: 'some_image_url',
+      image_hash: 'some_image_url_hash',
+      size: {
+        horizontal: 3,
+        vertical: 3
+      }
+    ) unless test.metadata[:no_create]
+  }
 
   let(:user_id){
     'the_user_id'
