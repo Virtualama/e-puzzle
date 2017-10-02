@@ -87,7 +87,7 @@ class App < Monster::Controller
     }.to_json) if (lock < 0 || lock > 3)
 
 
-    Repos::Captures.save image: 'otter', user: player, tile: Repos::Captures::LOCKS[lock][:tile]
+    Repos::Captures.save image: 'new_otter', user: player, tile: Repos::Captures::LOCKS[lock][:tile]
 
     {
       status: :ok
