@@ -3,7 +3,7 @@ require './repos/meta_repo'
 require './domain_objects'
 
 Mongo::Logger.level = Logger::FATAL
-mongo_url = ENV['MONGODB_URI'] || 'mongodb://localhost/e-puzzle_test'
+mongo_url = ENV['MONGODB_URI'] || "mongodb://localhost/e-puzzle_#{ENV['RACK_ENV']}"
 connection = Mongo::Client.new(mongo_url)
 
 Repos = Module.new

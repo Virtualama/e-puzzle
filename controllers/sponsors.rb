@@ -31,10 +31,14 @@ Sponsors = Monster::CRUD.for Repos::Sponsor, '/sponsor' do
     sponsor = Repos::Sponsor.all.first
     url_template = sponsor.url_template rescue ''
     image_url = sponsor.image_url rescue ''
+    image_hash = sponsor.image_hash rescue ''
+    size = sponsor.size rescue {horizontal: 3, vertical: 3}
 
     {
       url_template: url_template,
-      image_url: image_url
+      image_url: image_url,
+      image_hash: image_hash,
+      size: size
     }.to_json
   end
 end

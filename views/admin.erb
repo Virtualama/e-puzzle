@@ -62,7 +62,6 @@
 
   fieldset.options {
     width: 90%;
-    text-align: left;
   }
 
   fieldset.options label{
@@ -82,13 +81,18 @@
   }
 
   input[type=text]{
-    width: 100%
+    width: 90%
   }
 
   img.image_url {
+    /*display: block;*/
     width: 300px;
     height: 300px;
     border: 1px black dotted;
+  }
+
+  img[src=""]{
+    background-color: lightgrey;
   }
 
 </style>
@@ -119,26 +123,31 @@
 
 <div class="row">
   <fieldset class="options">
-    <label>
-      <span>
-      URL para canjear pincodes (%{pincode} será reemplazado por cada código):
-      </span>
-      <br>
-      <input class="url_template" type="text" placeholder="http://...">
-    </label>
-  </fieldset>
-</div>
-
-<div class="row">
-  <fieldset class="options">
-    <label>
-      <span>
-      URL con la imagen a resolver (ha de ser cuadrada):
-      </span>
-      <br>
-      <input class="image_url" type="text" placeholder="http://...">
-      <img class="image_url">
-    </label>
+    <div class="row">
+      <label>
+        <span>
+        URL para canjear pincodes (%{pincode} será reemplazado por cada código):
+        </span>
+        <br>
+        <input class="url_template" type="text" placeholder="http://...">
+      </label>
+    </div>
+    <div class="row">
+      <label>
+        <span>
+        URL con la imagen a resolver (ha de ser cuadrada):
+        </span>
+        <br>
+        <input class="image_url" type="text" placeholder="http://...">
+        <div class="row">
+          <img class="image_url">
+          <div class="row">
+            <input class="horizontal" type="number"> x
+            <input class="vertical" type="number">
+          </div>
+        </div>
+      </label>
+    </div>
   </fieldset>
 </div>
 
@@ -174,6 +183,12 @@ var showCurrentOptions = function(){
       var imageUrl = document.querySelector('input.image_url[type=text]').value
       formData.append('image_url', imageUrl)
 
+      var sizeHorizontal = document.querySelector('input.horizontal').value
+      formData.append('size[horizontal]', sizeHorizontal)
+
+      var sizeVertical = document.querySelector('input.vertical').value
+      formData.append('size[vertical]', sizeVertical)
+
       request('PUT', '/api/sponsor/the_sponsor', function(response){
         console.log(response)
         document.location.reload()
@@ -184,9 +199,11 @@ var showCurrentOptions = function(){
       document.querySelector('input.url_template[type=text]').value = response.url_template
       document.querySelector('input.image_url[type=text]').value = response.image_url
       document.querySelector('img.image_url').src = response.image_url
+      document.querySelector('input.horizontal').value = response.size.horizontal
+      document.querySelector('input.vertical').value = response.size.vertical
     })
 
-    document.querySelector('body').appendChild(send)
+    document.querySelector('.options').appendChild(send)
   }
 
   document.addEventListener('DOMContentLoaded', function(){

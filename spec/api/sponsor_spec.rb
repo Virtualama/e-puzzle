@@ -55,4 +55,14 @@ describe 'API - Sponsor' do
     get '/api/sponsor/the_sponsor/selections'
     expect(parsed_response[:image_url]).to eq('xxx')
   end
+
+  it 'handles tile sizing' do
+    put '/api/sponsor/the_sponsor', size: {horizontal: 5, vertical: 5}
+    expect(parsed_response[:status]).to eq('ok')
+    get '/api/sponsor/the_sponsor/selections'
+    expect(parsed_response[:size]).to eq({
+      'horizontal' => '5',
+      'vertical' => '5'
+    })
+  end
 end

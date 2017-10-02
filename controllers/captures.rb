@@ -29,8 +29,8 @@ Captures = Monster::CRUD.for Repos::Captures, '/captures' do
 
     halt ok if captures > 0
 
-    locked_tile = LOCKS.map{ |lock| lock[:tile] }.include? captured_tile
-    # locked_tile = Repos::Locks.find(image: params[:image], tile: captured_tile).first
+    # locked_tile = LOCKS.map{ |lock| lock[:tile] }.include? captured_tile
+    locked_tile = Repos::Locks.find(image: params[:image], tile: captured_tile).first
 
     halt ko(reason: :locked) if locked_tile
 

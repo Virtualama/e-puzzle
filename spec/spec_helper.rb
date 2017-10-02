@@ -2,6 +2,8 @@ require 'rack/test'
 require 'rspec'
 require 'ap'
 
+ENV['RACK_ENV'] = 'test'
+
 require File.join(File.dirname(__FILE__), '..', 'repos')
 require File.join(File.dirname(__FILE__), '..', 'controllers', 'meta_controller')
 require File.join(File.dirname(__FILE__), '..', 'app')

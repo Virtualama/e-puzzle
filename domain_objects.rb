@@ -60,6 +60,7 @@ class Sponsor < DomainObject
   attribute :url_template, Types::String
   attribute :image_url, Types::String
   attribute :image_hash, Types::String
+  attribute :size, Types::Hash.default(horizontal: 3, vertical: 3)
 end
 
 class Lock < DomainObject
