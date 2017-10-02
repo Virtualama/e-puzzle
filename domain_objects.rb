@@ -53,6 +53,13 @@ class Pincode < DomainObject
   attribute :assigned, Types::Assigned
 end
 
+class Size < DomainObject
+  constructor_type :strict_with_defaults
+
+  attribute :horizontal, Types::Coercible::Int
+  attribute :vertical, Types::Coercible::Int
+end
+
 class Sponsor < DomainObject
   constructor_type :strict_with_defaults
 
@@ -60,7 +67,7 @@ class Sponsor < DomainObject
   attribute :url_template, Types::String
   attribute :image_url, Types::String
   attribute :image_hash, Types::String
-  attribute :size, Types::Hash.default(horizontal: 3, vertical: 3)
+  attribute :size, Size.default(Size.new(horizontal: 3, vertical: 3))
 end
 
 class Lock < DomainObject

@@ -3,7 +3,11 @@ describe 'API - Sponsor' do
     Repos::Sponsor.save(
       url_template: 'http://xxx.yyy.zzz?code=%{pincode}',
       image_url: 'some_image_url',
-      image_hash: 'some_image_url_hash'
+      image_hash: 'some_image_url_hash',
+      size: {
+        horizontal: 5,
+        vertical: 5
+      }
     ) unless test.metadata[:no_create]
   }
 
@@ -61,8 +65,8 @@ describe 'API - Sponsor' do
     expect(parsed_response[:status]).to eq('ok')
     get '/api/sponsor/the_sponsor/selections'
     expect(parsed_response[:size]).to eq({
-      'horizontal' => '5',
-      'vertical' => '5'
+      'horizontal' => 5,
+      'vertical' => 5
     })
   end
 end
