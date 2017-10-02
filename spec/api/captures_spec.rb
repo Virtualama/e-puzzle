@@ -80,12 +80,14 @@ describe 'API - Captures' do
     expect(parsed_response[:reason]).to eq('locked')
   end
 
-  it 'assigns a pincode to a user on 15th' do
+  it 'assigns a pincode to a user on 9th' do
     Repos::Pincodes.save code: 'pincode'
 
-    (1..15).each do |idx|
+    (1..8).each do |idx|
       post "/api/captures/", tile: idx, user: user_id, image: :the_image_hash
     end
+
+    post "/api/captures/", tile: 0, user: user_id, image: :the_image_hash
 
     expect(assigned_pincode[user_id].code).to eq('pincode')
   end

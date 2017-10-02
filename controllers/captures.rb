@@ -40,7 +40,7 @@ Captures = Monster::CRUD.for Repos::Captures, '/captures' do
 
     total_captures_for_image = settings.repo.find(user: params[:user], image: params[:image]).length
 
-    halt ok if total_captures_for_image < 15
+    halt ok if total_captures_for_image < 9
 
     pincode_to_be_assigned = Repos::Pincodes.find(assigned: false).first
     Repos::Pincodes.update pincode_to_be_assigned.id, assigned: true
