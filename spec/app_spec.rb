@@ -1,4 +1,15 @@
 describe App do
+  before(:each){ |test|
+    Repos::Sponsor.save(
+      url_template: 'http://xxx.yyy.zzz?code=%{pincode}',
+      image_url: 'some_image_url',
+      image_hash: 'some_image_url_hash',
+      size: {
+        horizontal: 3,
+        vertical: 3
+    })
+  }
+
   it 'works' do
     get '/'
 
@@ -35,10 +46,33 @@ describe App do
       get "/challenge/#{player}/#{beacon}"
 
       expect(parsed_response[:status]).to eq('ko')
-      expect(parsed_response[:reason]).to eq('invalid_beacon_minor')
+      expect(parsed_response[:reason]).to eq('invalid_beacon_minor_length')
+    end
+
+    it 'retuns error if beacon is not between 1xx & 4xx' do
+      player = 'any_player_id'
+      beacon = '5xx'
+
+      get "/challenge/#{player}/#{beacon}"
+
+      expect(parsed_response[:status]).to eq('ko')
+      expect(parsed_response[:reason]).to eq('invalid_beacon_minor_number')
+    end
+
+    it 'retuns error if there is not a lock for that beacon' do
+      player = 'any_player_id'
+      beacon = '3xx'
+
+      get "/challenge/#{player}/#{beacon}"
+
+      expect(parsed_response[:status]).to eq('ko')
+      expect(parsed_response[:reason]).to eq('unexisting_lock')
     end
 
     it 'gives an asset & unlock_url for a lock' do
+
+      Repos::Locks.save tile: '3', time: '10', asset: 'aaa', type: 'image', image: 'xxx'
+
       centre = 'WX'
       lock = '1'
 

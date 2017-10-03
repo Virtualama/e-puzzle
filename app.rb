@@ -54,7 +54,7 @@ class App < Monster::Controller
 
     halt({
       status: :ko,
-      reason: :invalid_beacon_minor
+      reason: :invalid_beacon_minor_length
     }.to_json) if beacon.length != 3
 
     lock_number = beacon[0].to_i - 1
@@ -62,12 +62,28 @@ class App < Monster::Controller
 
     halt({
       status: :ko,
-      reason: :invalid_beacon_minor
+      reason: :invalid_beacon_minor_number
     }.to_json) if (lock_number < 0 || lock_number > 3)
 
-    this_lock = Repos::Locks.all[lock_number].to_h
-    this_lock.merge({
-      asset: url(this_lock[:asset]),
+    this_lock = Repos::Locks.all[lock_number]
+
+    halt({
+      status: :ko,
+      reason: :unexisting_lock
+    }.to_json) unless this_lock
+
+    image_hash = Repos::Sponsor.find(id: :the_sponsor).first.image_hash
+
+    captures = Repos::Captures.find(user: player, tile: this_lock.tile, image: image_hash).length rescue 0
+
+    return this_lock.to_h.merge({
+      asset: url(this_lock.asset),
+      unlock_url: url("/unlock/#{player}/#{beacon}")
+    }).to_json if captures == 0
+
+    this_bounty = Repos::Bounties.all[lock_number].to_h
+    this_bounty.to_h.merge({
+      asset: url(this_bounty.asset),
       unlock_url: url("/unlock/#{player}/#{beacon}")
     }).to_json
   end
@@ -75,7 +91,7 @@ class App < Monster::Controller
   get '/unlock/:user_id/:beacon_minor', provides: :json do |player, beacon|
     halt({
       status: :ko,
-      reason: :invalid_beacon_minor
+      reason: :invalid_beacon_minor_length
     }.to_json) if beacon.length != 3
 
     lock_number = beacon[0].to_i - 1
@@ -83,10 +99,15 @@ class App < Monster::Controller
 
     halt({
       status: :ko,
-      reason: :invalid_beacon_minor
+      reason: :invalid_beacon_minor_number
     }.to_json) if (lock_number < 0 || lock_number > 3)
 
     lock = Repos::Locks.all[lock_number]
+
+    halt({
+      status: :ko,
+      reason: :unexisting_lock
+    }.to_json) unless lock
 
     image_hash = Repos::Sponsor.find(id: :the_sponsor).first.image_hash
 
