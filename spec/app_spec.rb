@@ -70,7 +70,6 @@ describe App do
     end
 
     it 'gives an asset & unlock_url for a lock' do
-
       Repos::Locks.save tile: '3', time: '10', asset: 'aaa', type: 'image', image: 'xxx'
 
       centre = 'WX'
@@ -84,6 +83,23 @@ describe App do
       expect(parsed_response.keys).to include('asset', 'unlock_url')
     end
 
+    it 'gives an asset & unlock_url for a unlocked challenge' do
+      Repos::Locks.save tile: '3', time: '10', asset: 'aaa', type: 'image', image: 'xxx'
+      Repos::Bounties.save tile: '3', time: '10', asset: 'bounty', type: 'image', image: 'xxx'
+
+      centre = 'WX'
+      lock = '1'
+
+      beacon = lock + centre
+      player = '654321'
+
+      get "/challenge/#{player}/#{beacon}"
+      get "/unlock/#{player}/#{beacon}"
+      get "/challenge/#{player}/#{beacon}"
+
+      expect(parsed_response.keys).to include('asset', 'unlock_url')
+      expect(parsed_response[:asset]).to include('bounty')
+    end
   end
 end
 

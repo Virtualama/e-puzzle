@@ -81,7 +81,7 @@ class App < Monster::Controller
       unlock_url: url("/unlock/#{player}/#{beacon}")
     }).to_json if captures == 0
 
-    this_bounty = Repos::Bounties.all[lock_number].to_h
+    this_bounty = Repos::Bounties.all[lock_number]
     this_bounty.to_h.merge({
       asset: url(this_bounty.asset),
       unlock_url: url("/unlock/#{player}/#{beacon}")
