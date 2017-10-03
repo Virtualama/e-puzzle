@@ -1,27 +1,5 @@
 Captures = Monster::CRUD.for Repos::Captures, '/captures' do
 
-  LOCKS = [{
-    tile: 2,
-    asset: '/images/monster.jpg',
-    time: 10,
-    type: :image
-  },{
-    tile: 4,
-    asset: 'https://www.youtube.com/watch?v=oHg5SJYRHA0',
-    time: 10,
-    type: :video
-  },{
-    tile: 6,
-    asset: 'https://www.youtube.com/watch?v=oHg5SJYRHA0',
-    time: 10,
-    type: :video
-  },{
-    tile: 8,
-    asset: '/images/monster.jpg',
-    time: 10,
-    type: :image
-  }]
-
   post settings.prefix + '/?', provides: :json do
     captured_tile = params[:tile].to_i
 
@@ -29,7 +7,6 @@ Captures = Monster::CRUD.for Repos::Captures, '/captures' do
 
     halt ok if captures > 0
 
-    # locked_tile = LOCKS.map{ |lock| lock[:tile] }.include? captured_tile
     locked_tile = Repos::Locks.find(tile: captured_tile).first
 
     halt ko(reason: :locked) if locked_tile
