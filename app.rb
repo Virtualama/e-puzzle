@@ -89,7 +89,10 @@ class App < Monster::Controller
     lock = Repos::Locks.all[lock_number]
 
     image_hash = Repos::Sponsor.find(id: :the_sponsor).first.image_hash
-    Repos::Captures.save image: image_hash, user: player, tile: lock.tile
+
+    captures = settings.repo.find(user: player, tile: lock.tile, image: image_hash).length
+
+    Repos::Captures.save(image: image_hash, user: player, tile: lock.tile) unless captures > 0
 
     {
       status: :ok
