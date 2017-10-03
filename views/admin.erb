@@ -276,9 +276,7 @@
           formData.append('tile', x.querySelector('.tile').value)
           formData.append('image', 'all')
 
-          console.log(formData)
           request('POST', '/api/locks', function(response){
-            console.log('sent one formData')
             updatedLocks += 1
             if (updatedLocks >= beacons.length)
               location.reload()
@@ -288,9 +286,7 @@
     })
 
     request('GET', '/api/locks', function(response){
-      console.log(response)
       Array.prototype.forEach.call(document.querySelectorAll('.beacon'), function(beacon, idx){
-        console.log(response.list[idx])
         beacon.querySelector('.type').value = response.list[idx].type
         beacon.querySelector('.time').value = response.list[idx].time
         beacon.querySelector('.asset').value = response.list[idx].asset
