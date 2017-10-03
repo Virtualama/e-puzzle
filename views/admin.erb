@@ -1,108 +1,115 @@
 <!doctype html>
-<link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
-<style type="text/css">
-  * {
-    box-sizing: border-box;
-  }
+<head>
+  <meta name="viewport" content="width=device-width, user-scalable=no">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+  <style type="text/css">
+    * {
+      box-sizing: border-box;
+    }
 
-  body{
-    font-family: 'Montserrat', sans-serif;
-  }
+    body{
+      font-family: 'Montserrat', sans-serif;
+    }
 
-  fieldset {
-    width: 90%;
-    display: inline-block;
-    text-align: center;
-    margin: 5px 5%;
-    padding: 0;
-  }
+    fieldset {
+      width: 90%;
+      display: inline-block;
+      text-align: center;
+      margin: 5px 5%;
+      padding: 0;
+    }
 
-  .row {
-    display: block;
-    margin: 5px 0;
-    padding: 0;
-  }
+    .row {
+      display: block;
+      margin: 5px 0;
+      padding: 0;
+    }
 
-  .title{
-    font-size: xx-large;
-  }
+    .title{
+      font-size: xx-large;
+    }
 
-  input[type=file]{
-    width: 0.1px;
-    height: 0.1px;
-    opacity: 0;
-    overflow: hidden;
-    position: absolute;
-    z-index: -1;
-  }
+    input[type=file]{
+      width: 0.1px;
+      height: 0.1px;
+      opacity: 0;
+      overflow: hidden;
+      position: absolute;
+      z-index: -1;
+    }
 
-  input[type=file] + label,
-  input[type=submit] {
-    font-size: 1em;
-    font-weight: 700;
-    color: white;
-    background-color: black;
-    display: inline-block;
-    padding: 5px;
-    border-radius: 5px;
-    cursor: pointer;
-    border: 2px grey solid;
-  }
+    input[type=file] + label,
+    input[type=submit] {
+      font-size: 1em;
+      font-weight: 700;
+      color: white;
+      background-color: black;
+      display: inline-block;
+      padding: 5px;
+      border-radius: 5px;
+      cursor: pointer;
+      border: 2px grey solid;
+    }
 
-  input[type=file]:focus + label,
-  input[type=file] + label:hover,
-  input[type=submit]:hover {
-    opacity: 0.5;
-  }
+    input[type=file]:focus + label,
+    input[type=file] + label:hover,
+    input[type=submit]:hover {
+      opacity: 0.5;
+    }
 
-  input[type=file] + label {
-    display: block;
-    width: 90%;
-    margin: 0 auto;
-  }
+    input[type=file] + label {
+      display: block;
+      width: 90%;
+      margin: 0 auto;
+    }
 
-  fieldset.options {
-    width: 90%;
-  }
+    fieldset.options {
+      width: 90%;
+    }
 
-  fieldset.options label{
-    display: block;
-  }
+    fieldset.options label{
+      display: block;
+    }
 
-  input[type=checkbox]{
-    vertical-align: middle;
-  }
+    input[type=checkbox]{
+      vertical-align: middle;
+    }
 
-  input[type=checkbox]:checked + select{
-    visibility: visible;
-  }
+    input[type=checkbox]:checked + select{
+      visibility: visible;
+    }
 
-  input[type=text]{
-    width: 90%
-  }
+    input[type=text]{
+      width: 90%
+    }
 
-  div.img.image_url {
-    display: inline-block;
-    width: 300px;
-    height: 300px;
-    border: 1px black dotted;
-    background-size: cover;
-  }
+    div.img.image_url {
+      display: inline-block;
+      width: 300px;
+      height: 300px;
+      border: 1px black dotted;
+      background-size: cover;
+    }
 
-  div.img{
-    background-color: lightgrey;
-  }
+    div.img{
+      background-color: lightgrey;
+    }
 
-  input.asset {
-    width: 70%;
-  }
+    input.asset {
+      width: 50%;
+    }
 
-  input.time,
-  input.tile{
-    width: 10%
-  }
+    input.time,
+    input.tile{
+      width: 9%
+    }
 
-</style>
+    span.subtitle {
+      font-weight: bold;
+    }
+
+  </style>
+</head>
 
 <div class="row">
   <fieldset>
@@ -163,21 +170,37 @@
 <div class="row">
   <fieldset class="beacons">
     <div class="row">
-      <span class="title">Desbloqueo de balizas</span>
+      <span class="title">Balizas</span>
 
       <div class="row">
         <label class="beacon">
           <div class="row">
             <span class="title">1</span>
-            tipo: <select class="type">
-              <option value="image">imagen</option>
-              <option value="video">video</option>
-            </select>
             loseta: <input class="tile" type="number" min=1 max=16>
-            tiempo: <input class="time" type="number" min=1 max=60> seg.
+            <fieldset class="lock">
+              <div class="row">
+                <span class="subtitle">Desbloqueo</span>
+                tipo: <select class="type">
+                  <option value="image">imagen</option>
+                  <option value="video">video</option>
+                </select>
+                tiempo: <input class="time" type="number" min=1 max=60> seg.
+                <input class="asset" type="text" placeholder="http://...">
+              </div>
+            </fieldset>
+            <fieldset class="bounty">
+              <div class="row">
+                <span class="subtitle">Contenido</span>
+                tipo: <select class="type">
+                  <option value="image">imagen</option>
+                  <option value="video">video</option>
+                </select>
+                tiempo: <input class="time" type="number" min=1 max=60> seg.
+                <input class="asset" type="text" placeholder="http://...">
+              </div>
+            </fieldset>
           </div>
           <div class="row">
-            <input class="asset" type="text" placeholder="http://...">
           </div>
         </label>
       </div>
@@ -186,15 +209,31 @@
         <label class="beacon">
           <div class="row">
             <span class="title">2</span>
-            tipo: <select class="type">
-              <option value="image">imagen</option>
-              <option value="video">video</option>
-            </select>
             loseta: <input class="tile" type="number" min=1 max=16>
-            tiempo: <input class="time" type="number" min=1 max=60> seg.
+            <fieldset class="lock">
+              <div class="row">
+                <span class="subtitle">Desbloqueo</span>
+                tipo: <select class="type">
+                  <option value="image">imagen</option>
+                  <option value="video">video</option>
+                </select>
+                tiempo: <input class="time" type="number" min=1 max=60> seg.
+                <input class="asset" type="text" placeholder="http://...">
+              </div>
+            </fieldset>
+            <fieldset class="bounty">
+              <div class="row">
+                <span class="subtitle">Contenido</span>
+                tipo: <select class="type">
+                  <option value="image">imagen</option>
+                  <option value="video">video</option>
+                </select>
+                tiempo: <input class="time" type="number" min=1 max=60> seg.
+                <input class="asset" type="text" placeholder="http://...">
+              </div>
+            </fieldset>
           </div>
           <div class="row">
-            <input class="asset" type="text" placeholder="http://...">
           </div>
         </label>
       </div>
@@ -203,15 +242,31 @@
         <label class="beacon">
           <div class="row">
             <span class="title">3</span>
-            tipo: <select class="type">
-              <option value="image">imagen</option>
-              <option value="video">video</option>
-            </select>
             loseta: <input class="tile" type="number" min=1 max=16>
-            tiempo: <input class="time" type="number" min=1 max=60> seg.
+            <fieldset class="lock">
+              <div class="row">
+                <span class="subtitle">Desbloqueo</span>
+                tipo: <select class="type">
+                  <option value="image">imagen</option>
+                  <option value="video">video</option>
+                </select>
+                tiempo: <input class="time" type="number" min=1 max=60> seg.
+                <input class="asset" type="text" placeholder="http://...">
+              </div>
+            </fieldset>
+            <fieldset class="bounty">
+              <div class="row">
+                <span class="subtitle">Contenido</span>
+                tipo: <select class="type">
+                  <option value="image">imagen</option>
+                  <option value="video">video</option>
+                </select>
+                tiempo: <input class="time" type="number" min=1 max=60> seg.
+                <input class="asset" type="text" placeholder="http://...">
+              </div>
+            </fieldset>
           </div>
           <div class="row">
-            <input class="asset" type="text" placeholder="http://...">
           </div>
         </label>
       </div>
@@ -220,15 +275,31 @@
         <label class="beacon">
           <div class="row">
             <span class="title">4</span>
-            tipo: <select class="type">
-              <option value="image">imagen</option>
-              <option value="video">video</option>
-            </select>
             loseta: <input class="tile" type="number" min=1 max=16>
-            tiempo: <input class="time" type="number" min=1 max=60> seg.
+            <fieldset class="lock">
+              <div class="row">
+                <span class="subtitle">Desbloqueo</span>
+                tipo: <select class="type">
+                  <option value="image">imagen</option>
+                  <option value="video">video</option>
+                </select>
+                tiempo: <input class="time" type="number" min=1 max=60> seg.
+                <input class="asset" type="text" placeholder="http://...">
+              </div>
+            </fieldset>
+            <fieldset class="bounty">
+              <div class="row">
+                <span class="subtitle">Contenido</span>
+                tipo: <select class="type">
+                  <option value="image">imagen</option>
+                  <option value="video">video</option>
+                </select>
+                tiempo: <input class="time" type="number" min=1 max=60> seg.
+                <input class="asset" type="text" placeholder="http://...">
+              </div>
+            </fieldset>
           </div>
           <div class="row">
-            <input class="asset" type="text" placeholder="http://...">
           </div>
         </label>
       </div>
@@ -236,7 +307,6 @@
     </div>
   </fieldset>
 </div>
-
 
 <script type="text/javascript" >
   var request = function(method, route, callback, body){
@@ -265,32 +335,59 @@
       var sponsorFormData = new FormData()
 
 
-      request('DELETE', '/api/locks/all', function(response){
-        var updatedLocks = 0
+      request('DELETE', '/api/locks/all', function(_){
+        request('DELETE', '/api/bounties/all', function(_){
+          var updatedElements = 0
 
-        Array.prototype.forEach.call(document.querySelectorAll('.beacon'), function(x, _, beacons){
-          var formData = new FormData()
-          formData.append('type', x.querySelector('.type').value)
-          formData.append('time', x.querySelector('.time').value)
-          formData.append('asset', x.querySelector('.asset').value)
-          formData.append('tile', x.querySelector('.tile').value)
-          formData.append('image', 'all')
+          var updates = Array.prototype.forEach.call(document.querySelectorAll('.beacon'), function(beacon, idx, beacons){
+            var lockData = new FormData()
+            lockData.append('tile', beacon.querySelector('.tile').value)
+            lockData.append('type', beacon.querySelector('.type').value)
+            lockData.append('time', beacon.querySelector('.beacon .time').value)
+            lockData.append('asset', beacon.querySelector('.beacon .asset').value)
+            lockData.append('image', 'all')
+            lockData.append('id', idx)
 
-          request('POST', '/api/locks', function(response){
-            updatedLocks += 1
-            if (updatedLocks >= beacons.length)
-              location.reload()
-          }, formData)
+            request('POST', '/api/locks', function(response){
+              updatedElements += 1
+              if (updatedElements >= beacons.length * 2)
+                location.reload()
+            }, lockData)
+
+            var bountyData = new FormData()
+            bountyData.append('tile', beacon.querySelector('.tile').value)
+            bountyData.append('type', beacon.querySelector('.lock .type').value)
+            bountyData.append('time', beacon.querySelector('.lock .time').value)
+            bountyData.append('asset', beacon.querySelector('.lock .asset').value)
+            bountyData.append('image', 'all')
+            bountyData.append('id', idx)
+
+            request('POST', '/api/bounties', function(response){
+              updatedElements += 1
+              if (updatedElements >= beacons.length * 2)
+                location.reload()
+            }, bountyData)
+          })
         })
       })
     })
 
-    request('GET', '/api/locks', function(response){
-      Array.prototype.forEach.call(document.querySelectorAll('.beacon'), function(beacon, idx){
-        beacon.querySelector('.type').value = response.list[idx].type
-        beacon.querySelector('.time').value = response.list[idx].time
-        beacon.querySelector('.asset').value = response.list[idx].asset
-        beacon.querySelector('.tile').value = response.list[idx].tile
+    request('GET', '/api/locks', function(locks){
+      request('GET', '/api/bounties', function(bounties){
+        var beacons = document.querySelectorAll('.beacon')
+
+        locks.list.forEach(function(lock, idx){
+          beacons[lock.id].querySelector('.tile').value = lock.tile
+          beacons[lock.id].querySelector('.lock .type').value = lock.type
+          beacons[lock.id].querySelector('.lock .time').value = lock.time
+          beacons[lock.id].querySelector('.lock .asset').value = lock.asset
+        })
+
+        bounties.list.forEach(function(bounty, idx){
+          beacons[bounty.id].querySelector('.bounty .type').value = bounty.type
+          beacons[bounty.id].querySelector('.bounty .time').value = bounty.time
+          beacons[bounty.id].querySelector('.bounty .asset').value = bounty.asset
+        })
       })
     })
 
