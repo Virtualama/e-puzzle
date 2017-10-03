@@ -42,6 +42,7 @@ RSpec.configure do |config|
     Repos::Pincodes.clear
     Repos::Sponsor.clear
     Repos::Locks.clear
+    Repos::Bounties.clear
   }
 
   config.shared_context_metadata_behavior = :apply_to_host_groups
