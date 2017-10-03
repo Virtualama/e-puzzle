@@ -74,7 +74,7 @@ class App < Monster::Controller
 
     image_hash = Repos::Sponsor.find(id: :the_sponsor).first.image_hash
 
-    captures = Repos::Captures.find(user: player, tile: this_lock.tile, image: image_hash).length rescue 0
+    captures = Repos::Captures.find(user: player, tile: this_lock.tile, image: image_hash).length
 
     return this_lock.to_h.merge({
       asset: url(this_lock.asset),
@@ -111,7 +111,7 @@ class App < Monster::Controller
 
     image_hash = Repos::Sponsor.find(id: :the_sponsor).first.image_hash
 
-    captures = settings.repo.find(user: player, tile: lock.tile, image: image_hash).length
+    captures = Repos::Captures.find(user: player, tile: lock.tile, image: image_hash).length
 
     Repos::Captures.save(image: image_hash, user: player, tile: lock.tile) unless captures > 0
 
