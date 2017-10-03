@@ -17,7 +17,6 @@ Captures = Monster::CRUD.for Repos::Captures, '/captures' do
 
     total_captures_for_image = settings.repo.find(user: params[:user], image: params[:image]).length
 
-
     size = Repos::Sponsor.find(id: :the_sponsor).first.size
     total_tiles = size.horizontal * size.vertical
 

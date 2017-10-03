@@ -69,7 +69,7 @@ class App < Monster::Controller
     this_lock.merge({
       asset: url(this_lock[:asset]),
       unlock_url: url("/unlock/#{player}/#{beacon}")
-    }) .to_json
+    }).to_json
   end
 
   get '/unlock/:user_id/:beacon_minor', provides: :json do |player, beacon|
