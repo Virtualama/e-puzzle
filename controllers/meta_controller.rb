@@ -70,10 +70,16 @@ module Monster
             end
           end
 
+          delete settings.prefix + '/all', provides: :json do
+            settings.repo.clear
+            ok
+          end
+
           delete settings.prefix + '/:id', provides: :json do |id|
             settings.repo.delete id
             ok
           end
+
         end
       end
     end
