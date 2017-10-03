@@ -73,7 +73,7 @@ end
 class Lock < DomainObject
   constructor_type :strict_with_defaults
 
-  attribute :id, Types::Id
+  attribute :id, Types::Coercible::Int.default(0)
   attribute :image, Types::String
   attribute :tile, Types::Coercible::Int
   attribute :type, Types::LockType
