@@ -5,7 +5,6 @@ require './repos'
 require './controllers/pincodes'
 require './controllers/captures'
 require './controllers/sponsors'
-require './controllers/locks'
 require './app'
 
 use Rack::Cors do
@@ -16,6 +15,8 @@ use Rack::Cors do
 end
 
 Users = Monster::CRUD.for Repos::Users, '/users'
+Locks = Monster::CRUD.for Repos::Locks, '/locks'
+Bounties = Monster::CRUD.for Repos::Bounties, '/bounties'
 
 map '/api' do
   use Captures
@@ -23,6 +24,7 @@ map '/api' do
   use Pincodes
   use Sponsors
   use Locks
+  use Bounties
   run lambda { |_|
     [200, {}, '_']
   }
