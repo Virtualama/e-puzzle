@@ -342,9 +342,9 @@
           var updates = Array.prototype.forEach.call(document.querySelectorAll('.beacon'), function(beacon, idx, beacons){
             var lockData = new FormData()
             lockData.append('tile', beacon.querySelector('.tile').value)
-            lockData.append('type', beacon.querySelector('.type').value)
-            lockData.append('time', beacon.querySelector('.beacon .time').value)
-            lockData.append('asset', beacon.querySelector('.beacon .asset').value)
+            lockData.append('type', beacon.querySelector('.lock .type').value)
+            lockData.append('time', beacon.querySelector('.lock .time').value)
+            lockData.append('asset', beacon.querySelector('.lock .asset').value)
             lockData.append('image', 'all')
             lockData.append('id', idx)
 
@@ -356,9 +356,9 @@
 
             var bountyData = new FormData()
             bountyData.append('tile', beacon.querySelector('.tile').value)
-            bountyData.append('type', beacon.querySelector('.lock .type').value)
-            bountyData.append('time', beacon.querySelector('.lock .time').value)
-            bountyData.append('asset', beacon.querySelector('.lock .asset').value)
+            bountyData.append('type', beacon.querySelector('.bounty .type').value)
+            bountyData.append('time', beacon.querySelector('.bounty .time').value)
+            bountyData.append('asset', beacon.querySelector('.bounty .asset').value)
             bountyData.append('image', 'all')
             bountyData.append('id', idx)
 
