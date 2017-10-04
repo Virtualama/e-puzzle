@@ -124,7 +124,10 @@ class App < Monster::Controller
     erb :admin
   end
 
-  get '/puzzle/' do
-    send_file File.join(settings.public_folder, 'puzzle/index.html')
+  get '/puzzle/?' do
+    player_id = params[:player_id]
+    cache_booster = Time.now.to_i
+
+    redirect to("/puzzle/index.html?t=#{cache_booster}&player_id=#{player_id}"), 307
   end
 end
