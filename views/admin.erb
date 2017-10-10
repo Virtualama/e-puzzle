@@ -1,440 +1,554 @@
+
 <!doctype html>
+<html>
 <head>
   <meta name="viewport" content="width=device-width, user-scalable=no">
-  <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+  <link
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+          crossorigin="anonymous">
+  <script
+          src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+          integrity="sha256-k2WSCIexGzOj3Euiig+TlR8gA0EmPjuc79OEeY5L45g="
+          crossorigin="anonymous">
+  </script>
+  <script
+          src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+          integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+          crossorigin="anonymous">
+  </script>
+  <link
+          href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/cerulean/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-zF4BRsG/fLiTGfR9QL82DrilZxrwgY/+du4p/c7J72zZj+FLYq4zY00RylP9ZjiT"
+          crossorigin="anonymous">
+  <link
+          href="https://fonts.googleapis.com/css?family=Montserrat"
+          rel="stylesheet">
+
   <style type="text/css">
-    * {
-      box-sizing: border-box;
+    body {
+      font-family: 'Montserrat'
     }
 
-    body{
-      font-family: 'Montserrat', sans-serif;
-    }
-
-    fieldset {
-      width: 90%;
-      display: inline-block;
-      text-align: center;
-      margin: 5px 5%;
-      padding: 0;
-    }
-
-    .row {
-      display: block;
-      margin: 5px 0;
-      padding: 0;
-    }
-
-    .title{
-      font-size: xx-large;
-    }
-
-    input[type=file]{
-      width: 0.1px;
-      height: 0.1px;
-      opacity: 0;
-      overflow: hidden;
-      position: absolute;
-      z-index: -1;
-    }
-
-    input[type=file] + label,
-    input[type=submit] {
-      font-size: 1em;
-      font-weight: 700;
-      color: white;
-      background-color: black;
-      display: inline-block;
-      padding: 5px;
-      border-radius: 5px;
-      cursor: pointer;
-      border: 2px grey solid;
-    }
-
-    input[type=file]:focus + label,
-    input[type=file] + label:hover,
-    input[type=submit]:hover {
-      opacity: 0.5;
-    }
-
-    input[type=file] + label {
-      display: block;
-      width: 90%;
-      margin: 0 auto;
-    }
-
-    fieldset.options {
-      width: 90%;
-    }
-
-    fieldset.options label{
-      display: block;
-    }
-
-    input[type=checkbox]{
-      vertical-align: middle;
-    }
-
-    input[type=checkbox]:checked + select{
-      visibility: visible;
-    }
-
-    input[type=text]{
-      width: 90%
+    .container {
+      /*max-width: 992px;*/
     }
 
     div.img.image_url {
-      display: inline-block;
+      display: block;
       width: 300px;
       height: 300px;
       border: 1px black dotted;
-      background-size: cover;
+      background-size: 100% 100%;
+      margin: auto;
     }
 
-    div.img{
-      background-color: lightgrey;
+    .navbar {
+      text-align: center;
+      height: 90px;
     }
 
-    input.asset {
-      width: 50%;
+    .navbar-red {
+      background: #c71c22;
+      border-bottom-color: #c71c22;
     }
 
-    input.time,
-    input.tile{
-      width: 9%
+    .navbar span {
+      color: white;
+      display: block;
+      margin: 20px;
+      font-size: 30px;
     }
 
-    span.subtitle {
-      font-weight: bold;
+    .nav-pills li a {
+      background-color: white;
+      color: #c71c22;
+    }
+
+    .nav-pills li a:hover,
+    .nav-pills li a:focus
+    {
+      color: black;
+    }
+
+    .nav-pills li.active a,
+    .nav-pills li.active a:hover,
+    .nav-pills li.active a:focus
+    {
+      background-color: #c71c22;
+      color: white;
+    }
+
+    aside {
+      position: absolute;
+      width: 100px;
+    }
+
+    section {
+      position: absolute;
+      margin-left: 100px;
     }
 
   </style>
 </head>
-
-<div class="row">
-  <fieldset>
-    <form action="/api/pincodes/upload" method="post" enctype="multipart/form-data">
-      <div class="row">
-        <div class="title">Pincodes</div>
-      </div>
-
-      <div class="row">
-        <span >Disponibles:</span>
-        <span class="available"></span>
-      </div>
-
-      <div class="row">
-        <input name="file" id="upload" type="file" accept=".csv">
-        <label for="upload">Elige un Archivo</label>
-      </div>
-
-      <div class="row">
-        <input type="submit" value="Añadir">
-      </div>
-    </form>
-  </fieldset>
-</div>
-
-<div class="row">
-  <fieldset class="options">
-    <span class="title">URLs</span>
-    <div class="row">
-      <label>
-        <span>
-        URL para canjear pincodes (%{pincode} será reemplazado por cada código):
-        </span>
-        <br>
-        <input class="url_template" type="text" placeholder="http://...">
-      </label>
+<body>
+  <nav class="navbar navbar-red">
+    <div class="container-fluid">
+      <span>e-puzzle</span>
     </div>
-    <div class="row">
-      <label>
-        <span>
-        URL con la imagen a resolver (ha de ser cuadrada):
-        </span>
-        <br>
-        <input class="image_url" type="text" placeholder="http://...">
-        <div class="row">
-          <!-- <img class="image_url"> -->
-          <div class="img image_url"></div>
+  </nav>
+
+
+  <aside>
+    <ul class="nav nav-pills nav-stacked" role="tablist">
+      <li role="presentation" class="active"><a href="#pincodes" role="tab" aria-controls="pincodes" data-toggle="tab">Pincodes</a></li>
+      <li role="presentation"><a href="#imagen" role="tab" aria-controls="imagen" data-toggle="tab">Imagen</a></li>
+      <li role="presentation"><a href="#balizas" role="tab" aria-controls="balizas" data-toggle="tab">Balizas</a></li>
+      <li role="presentation"><a href="#metricas" role="tab" aria-controls="metricas" data-toggle="tab">Métricas</a></li>
+    </ul>
+  </aside>
+
+  <section>
+  <div class="tab-content">
+    <div role="tabpanel" class="tab-pane fade in active" id="pincodes">
+      <div class="container">
+        <form action="/api/pincodes/upload" method="post" enctype="multipart/form-data">
           <div class="row">
-            <input class="horizontal" type="number"> x
-            <input class="vertical" type="number">
+            <div class="col-xs-12 col-sm-4">
+              <div class="well bs-component">
+                <div class="form-group">
+                  <label>Disponibles:</label>
+                  <span class="available"></span>
+                </div>
+
+                <div class="form-group">
+                  <label for="upload" class="btn btn-danger btn-block" >Elige un Archivo
+                  <input name="file" id="upload" type="file" accept=".csv" style="display:none">
+                  </label>
+                </div>
+
+                <div class="form-group">
+                  <input type="submit" value="Añadir" class="btn btn-danger btn-block">
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+
+        <div class="well bs-component">
+          <div class="form-group">
+            <label for="url_template">
+              URL para canjear pincodes (<span style="font-family: monospace; font-style: oblique; font-weight: normal">%{pincode}</span> será reemplazado por cada código):
+            </label>
+            <input id="url_template" type="text" placeholder="http://..." class="form-control">
+          </div>
+
+          <div class="form-group">
+            <input type="submit" value="Guardar" class="btn btn-danger">
           </div>
         </div>
-      </label>
+
+      </div>
     </div>
-  </fieldset>
-</div>
-
-<div class="row">
-  <fieldset class="beacons">
-    <div class="row">
-      <span class="title">Balizas</span>
-
-      <div class="row">
-        <label class="beacon">
-          <div class="row">
-            <span class="title">1</span>
-            loseta: <input class="tile" type="number" min=1 max=16>
-            <fieldset class="lock">
-              <div class="row">
-                <span class="subtitle">Desbloqueo</span>
-                tipo: <select class="type">
-                  <option value="image">imagen</option>
-                  <option value="video">video</option>
-                </select>
-                tiempo: <input class="time" type="number" min=1 max=60> seg.
-                <input class="asset" type="text" placeholder="http://...">
-              </div>
-            </fieldset>
-            <fieldset class="bounty">
-              <div class="row">
-                <span class="subtitle">Contenido</span>
-                tipo: <select class="type">
-                  <option value="image">imagen</option>
-                  <option value="video">video</option>
-                </select>
-                tiempo: <input class="time" type="number" min=1 max=60> seg.
-                <input class="asset" type="text" placeholder="http://...">
-              </div>
-            </fieldset>
+    <div role="tabpanel" class="tab-pane fade" id="imagen">
+      <div class="container">
+        <div class="well">
+          <div class="form-group">
+            <label >
+              URL con la imagen a resolver (ha de ser cuadrada):
+            </label>
+            <input class="image_url form-control" type="text" placeholder="http://...">
           </div>
-          <div class="row">
+
+          <div class="form-group">
+            <div class="img image_url"></div>
           </div>
-        </label>
+
+          <div class="row">
+            <div class="form-group col-xs-8 col-xs-offset-2">
+              <label>Losetas</label>
+              <div class="input-group">
+                <input type="number" class="horizontal form-control">
+                <span class="input-group-addon">X</span>
+                <input type="number" class="vertical form-control">
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <input type="submit" value="Guardar" class="btn btn-danger">
+          </div>
+
+        </div>
       </div>
-
-      <div class="row">
-        <label class="beacon">
-          <div class="row">
-            <span class="title">2</span>
-            loseta: <input class="tile" type="number" min=1 max=16>
-            <fieldset class="lock">
-              <div class="row">
-                <span class="subtitle">Desbloqueo</span>
-                tipo: <select class="type">
-                  <option value="image">imagen</option>
-                  <option value="video">video</option>
-                </select>
-                tiempo: <input class="time" type="number" min=1 max=60> seg.
-                <input class="asset" type="text" placeholder="http://...">
-              </div>
-            </fieldset>
-            <fieldset class="bounty">
-              <div class="row">
-                <span class="subtitle">Contenido</span>
-                tipo: <select class="type">
-                  <option value="image">imagen</option>
-                  <option value="video">video</option>
-                </select>
-                tiempo: <input class="time" type="number" min=1 max=60> seg.
-                <input class="asset" type="text" placeholder="http://...">
-              </div>
-            </fieldset>
-          </div>
-          <div class="row">
-          </div>
-        </label>
-      </div>
-
-      <div class="row">
-        <label class="beacon">
-          <div class="row">
-            <span class="title">3</span>
-            loseta: <input class="tile" type="number" min=1 max=16>
-            <fieldset class="lock">
-              <div class="row">
-                <span class="subtitle">Desbloqueo</span>
-                tipo: <select class="type">
-                  <option value="image">imagen</option>
-                  <option value="video">video</option>
-                </select>
-                tiempo: <input class="time" type="number" min=1 max=60> seg.
-                <input class="asset" type="text" placeholder="http://...">
-              </div>
-            </fieldset>
-            <fieldset class="bounty">
-              <div class="row">
-                <span class="subtitle">Contenido</span>
-                tipo: <select class="type">
-                  <option value="image">imagen</option>
-                  <option value="video">video</option>
-                </select>
-                tiempo: <input class="time" type="number" min=1 max=60> seg.
-                <input class="asset" type="text" placeholder="http://...">
-              </div>
-            </fieldset>
-          </div>
-          <div class="row">
-          </div>
-        </label>
-      </div>
-
-      <div class="row">
-        <label class="beacon">
-          <div class="row">
-            <span class="title">4</span>
-            loseta: <input class="tile" type="number" min=1 max=16>
-            <fieldset class="lock">
-              <div class="row">
-                <span class="subtitle">Desbloqueo</span>
-                tipo: <select class="type">
-                  <option value="image">imagen</option>
-                  <option value="video">video</option>
-                </select>
-                tiempo: <input class="time" type="number" min=1 max=60> seg.
-                <input class="asset" type="text" placeholder="http://...">
-              </div>
-            </fieldset>
-            <fieldset class="bounty">
-              <div class="row">
-                <span class="subtitle">Contenido</span>
-                tipo: <select class="type">
-                  <option value="image">imagen</option>
-                  <option value="video">video</option>
-                </select>
-                tiempo: <input class="time" type="number" min=1 max=60> seg.
-                <input class="asset" type="text" placeholder="http://...">
-              </div>
-            </fieldset>
-          </div>
-          <div class="row">
-          </div>
-        </label>
-      </div>
-
     </div>
-  </fieldset>
-</div>
+    <div role="tabpanel" class="tab-pane fade" id="balizas">
+      <div class="container">
+        <div class="well">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="panel panel-danger beacon">
+              <div class="panel-heading">
+                1
+              </div>
+              <div class="panel-body">
+                <div class="form-group">
+                  <div class="row">
+                    <div class="col-sm-4 col-md-6">
+                      <div class="input-group">
+                        <label class="input-group-addon">Loseta:</label>
+                        <input class="tile form-control" type="number" min=1 max=16>
+                      </div>
+                    </div>
+                  </div>
+                </div>
 
-<script type="text/javascript" >
-  var request = function(method, route, callback, body){
-    var xhr = new XMLHttpRequest()
-    xhr.open(method, route)
-    xhr.responseType = 'json'
-    xhr.addEventListener('load', function(event){
-      if (callback)
-        callback(event.target.response)
-    })
-    xhr.send(body)
-  }
+                <div class="form-group lock">
+                  <label>Desbloqueo</label>
+                  <div class="input-group">
+                    <span class="input-group-addon">Tipo</span>
+                    <select class="form-control type">
+                      <option value="image">imagen</option>
+                      <option value="video">video</option>
+                    </select>
+                    <span class="input-group-addon">Tiempo</span>
+                    <input class="form-control time" type="number" min=1 max=60>
+                  </div>
+                  <div class="input-group">
+                    <span class="input-group-addon">URL</span>
+                    <input type="text" class="form-control asset" placeholder="http://">
+                  </div>
+                </div>
 
-  var countPincodes = function(elementSelector){
-    request('GET', '/api/pincodes/count/', function(response){
-      document.querySelector(elementSelector).innerHTML = response.count
-    })
-  }
+                <div class="form-group bounty">
+                  <label>Contenido</label>
+                  <div class="input-group">
+                    <span class="input-group-addon">Tipo</span>
+                    <select class="form-control type">
+                      <option value="image">imagen</option>
+                      <option value="video">video</option>
+                    </select>
+                    <span class="input-group-addon">Tiempo</span>
+                    <input class="form-control time" type="number" min=1 max=60>
+                  </div>
+                  <div class="input-group">
+                    <span class="input-group-addon">URL</span>
+                    <input type="text" class="form-control asset" placeholder="http://">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="panel panel-danger beacon">
+              <div class="panel-heading">
+                2
+              </div>
+              <div class="panel-body">
+                <div class="form-group">
+                  <div class="row">
+                    <div class="col-sm-4 col-md-6">
+                      <div class="input-group">
+                        <label class="input-group-addon">Loseta:</label>
+                        <input class="tile form-control" type="number" min=1 max=16>
+                      </div>
+                    </div>
+                  </div>
+                </div>
 
-  var showCurrentLocks = function(){
-    var send = document.createElement('input')
-    send.type = 'submit'
-    send.value = 'Guardar'
-    send.addEventListener('click', function(event){
-      event.preventDefault()
-      var sponsorFormData = new FormData()
+                <div class="form-group lock">
+                  <label>Desbloqueo</label>
+                  <div class="input-group">
+                    <span class="input-group-addon">Tipo</span>
+                    <select class="form-control type">
+                      <option value="image">imagen</option>
+                      <option value="video">video</option>
+                    </select>
+                    <span class="input-group-addon">Tiempo</span>
+                    <input class="form-control time" type="number" min=1 max=60>
+                  </div>
+                  <div class="input-group">
+                    <span class="input-group-addon">URL</span>
+                    <input type="text" class="form-control asset" placeholder="http://">
+                  </div>
+                </div>
+
+                <div class="form-group bounty">
+                  <label>Contenido</label>
+                  <div class="input-group">
+                    <span class="input-group-addon">Tipo</span>
+                    <select class="form-control type">
+                      <option value="image">imagen</option>
+                      <option value="video">video</option>
+                    </select>
+                    <span class="input-group-addon">Tiempo</span>
+                    <input class="form-control time" type="number" min=1 max=60>
+                  </div>
+                  <div class="input-group">
+                    <span class="input-group-addon">URL</span>
+                    <input type="text" class="form-control asset" placeholder="http://">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="panel panel-danger beacon">
+              <div class="panel-heading">
+                3
+              </div>
+              <div class="panel-body">
+                <div class="form-group">
+                  <div class="row">
+                    <div class="col-sm-4 col-md-6">
+                      <div class="input-group">
+                        <label class="input-group-addon">Loseta:</label>
+                        <input class="tile form-control" type="number" min=1 max=16>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group lock">
+                  <label>Desbloqueo</label>
+                  <div class="input-group">
+                    <span class="input-group-addon">Tipo</span>
+                    <select class="form-control type">
+                      <option value="image">imagen</option>
+                      <option value="video">video</option>
+                    </select>
+                    <span class="input-group-addon">Tiempo</span>
+                    <input class="form-control time" type="number" min=1 max=60>
+                  </div>
+                  <div class="input-group">
+                    <span class="input-group-addon">URL</span>
+                    <input type="text" class="form-control asset" placeholder="http://">
+                  </div>
+                </div>
+
+                <div class="form-group bounty">
+                  <label>Contenido</label>
+                  <div class="input-group">
+                    <span class="input-group-addon">Tipo</span>
+                    <select class="form-control type">
+                      <option value="image">imagen</option>
+                      <option value="video">video</option>
+                    </select>
+                    <span class="input-group-addon">Tiempo</span>
+                    <input class="form-control time" type="number" min=1 max=60>
+                  </div>
+                  <div class="input-group">
+                    <span class="input-group-addon">URL</span>
+                    <input type="text" class="form-control asset" placeholder="http://">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="panel panel-danger beacon">
+              <div class="panel-heading">
+                4
+              </div>
+              <div class="panel-body">
+                <div class="form-group">
+                  <div class="row">
+                    <div class="col-sm-4 col-md-6">
+                      <div class="input-group">
+                        <label class="input-group-addon">Loseta:</label>
+                        <input class="tile form-control" type="number" min=1 max=16>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group lock">
+                  <label>Desbloqueo</label>
+                  <div class="input-group">
+                    <span class="input-group-addon">Tipo</span>
+                    <select class="form-control type">
+                      <option value="image">imagen</option>
+                      <option value="video">video</option>
+                    </select>
+                    <span class="input-group-addon">Tiempo</span>
+                    <input class="form-control time" type="number" min=1 max=60>
+                  </div>
+                  <div class="input-group">
+                    <span class="input-group-addon">URL</span>
+                    <input type="text" class="form-control asset" placeholder="http://">
+                  </div>
+                </div>
+
+                <div class="form-group bounty">
+                  <label>Contenido</label>
+                  <div class="input-group">
+                    <span class="input-group-addon">Tipo</span>
+                    <select class="form-control type">
+                      <option value="image">imagen</option>
+                      <option value="video">video</option>
+                    </select>
+                    <span class="input-group-addon">Tiempo</span>
+                    <input class="form-control time" type="number" min=1 max=60>
+                  </div>
+                  <div class="input-group">
+                    <span class="input-group-addon">URL</span>
+                    <input type="text" class="form-control asset" placeholder="http://">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <input type="submit" value="Guardar" class="btn btn-danger">
+        </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div role="tabpanel" class="tab-pane fade" id="metricas">
+      <div class="container">
+        <div class="well bs-component">
+          <div class="form-group">
+            <h1>No hay suficientes datos de juegos..</h1>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </section>
+  <script type="text/javascript" >
+    var request = function(method, route, callback, body){
+      var xhr = new XMLHttpRequest()
+      xhr.open(method, route)
+      xhr.responseType = 'json'
+      xhr.addEventListener('load', function(event){
+        if (callback)
+          callback(event.target.response)
+      })
+      xhr.send(body)
+    }
+
+    var countPincodes = function(elementSelector){
+      request('GET', '/api/pincodes/count/', function(response){
+        document.querySelector(elementSelector).innerHTML = response.count
+      })
+    }
+
+    var showCurrentLocks = function(){
+      var send = document.createElement('input')
+      send.type = 'submit'
+      send.value = 'Guardar'
+      send.addEventListener('click', function(event){
+        event.preventDefault()
+        var sponsorFormData = new FormData()
 
 
-      request('DELETE', '/api/locks/all', function(_){
-        request('DELETE', '/api/bounties/all', function(_){
-          var updatedElements = 0
+        request('DELETE', '/api/locks/all', function(_){
+          request('DELETE', '/api/bounties/all', function(_){
+            var updatedElements = 0
 
-          var updates = Array.prototype.forEach.call(document.querySelectorAll('.beacon'), function(beacon, idx, beacons){
-            var lockData = new FormData()
-            lockData.append('tile', beacon.querySelector('.tile').value)
-            lockData.append('type', beacon.querySelector('.lock .type').value)
-            lockData.append('time', beacon.querySelector('.lock .time').value)
-            lockData.append('asset', beacon.querySelector('.lock .asset').value)
-            lockData.append('image', 'all')
-            lockData.append('id', idx)
+            var updates = Array.prototype.forEach.call(document.querySelectorAll('.beacon'), function(beacon, idx, beacons){
+              var lockData = new FormData()
+              lockData.append('tile', beacon.querySelector('.tile').value)
+              lockData.append('type', beacon.querySelector('.lock .type').value)
+              lockData.append('time', beacon.querySelector('.lock .time').value)
+              lockData.append('asset', beacon.querySelector('.lock .asset').value)
+              lockData.append('image', 'all')
+              lockData.append('id', idx)
 
-            request('POST', '/api/locks', function(response){
-              updatedElements += 1
-              if (updatedElements >= beacons.length * 2)
-                location.reload()
-            }, lockData)
+              request('POST', '/api/locks', function(response){
+                updatedElements += 1
+                if (updatedElements >= beacons.length * 2)
+                  location.reload()
+              }, lockData)
 
-            var bountyData = new FormData()
-            bountyData.append('tile', beacon.querySelector('.tile').value)
-            bountyData.append('type', beacon.querySelector('.bounty .type').value)
-            bountyData.append('time', beacon.querySelector('.bounty .time').value)
-            bountyData.append('asset', beacon.querySelector('.bounty .asset').value)
-            bountyData.append('image', 'all')
-            bountyData.append('id', idx)
+              var bountyData = new FormData()
+              bountyData.append('tile', beacon.querySelector('.tile').value)
+              bountyData.append('type', beacon.querySelector('.bounty .type').value)
+              bountyData.append('time', beacon.querySelector('.bounty .time').value)
+              bountyData.append('asset', beacon.querySelector('.bounty .asset').value)
+              bountyData.append('image', 'all')
+              bountyData.append('id', idx)
 
-            request('POST', '/api/bounties', function(response){
-              updatedElements += 1
-              if (updatedElements >= beacons.length * 2)
-                location.reload()
-            }, bountyData)
+              request('POST', '/api/bounties', function(response){
+                updatedElements += 1
+                if (updatedElements >= beacons.length * 2)
+                  location.reload()
+              }, bountyData)
+            })
           })
         })
       })
-    })
 
-    request('GET', '/api/locks', function(locks){
-      request('GET', '/api/bounties', function(bounties){
-        var beacons = document.querySelectorAll('.beacon')
+      request('GET', '/api/locks', function(locks){
+        request('GET', '/api/bounties', function(bounties){
+          var beacons = document.querySelectorAll('.beacon')
 
-        locks.list.forEach(function(lock, idx){
-          beacons[lock.id].querySelector('.tile').value = lock.tile
-          beacons[lock.id].querySelector('.lock .type').value = lock.type
-          beacons[lock.id].querySelector('.lock .time').value = lock.time
-          beacons[lock.id].querySelector('.lock .asset').value = lock.asset
-        })
+          locks.list.forEach(function(lock, idx){
+            beacons[lock.id].querySelector('.tile').value = lock.tile
+            beacons[lock.id].querySelector('.lock .type').value = lock.type
+            beacons[lock.id].querySelector('.lock .time').value = lock.time
+            beacons[lock.id].querySelector('.lock .asset').value = lock.asset
+          })
 
-        bounties.list.forEach(function(bounty, idx){
-          beacons[bounty.id].querySelector('.bounty .type').value = bounty.type
-          beacons[bounty.id].querySelector('.bounty .time').value = bounty.time
-          beacons[bounty.id].querySelector('.bounty .asset').value = bounty.asset
+          bounties.list.forEach(function(bounty, idx){
+            beacons[bounty.id].querySelector('.bounty .type').value = bounty.type
+            beacons[bounty.id].querySelector('.bounty .time').value = bounty.time
+            beacons[bounty.id].querySelector('.bounty .asset').value = bounty.asset
+          })
         })
       })
+
+      document.querySelector('.beacons').appendChild(send)
+    }
+
+    var showCurrentOptions = function(){
+      var send = document.createElement('input')
+      send.type = 'submit'
+      send.value = 'Guardar'
+      send.addEventListener('click', function(event){
+        event.preventDefault()
+        var sponsorFormData = new FormData()
+
+        var redemptionUrl = document.querySelector('input.url_template[type=text]').value
+        sponsorFormData.append('url_template', redemptionUrl)
+
+        var imageUrl = document.querySelector('input.image_url[type=text]').value
+        sponsorFormData.append('image_url', imageUrl)
+
+        var sizeHorizontal = document.querySelector('input.horizontal').value
+        sponsorFormData.append('size[horizontal]', sizeHorizontal)
+
+        var sizeVertical = document.querySelector('input.vertical').value
+        sponsorFormData.append('size[vertical]', sizeVertical)
+
+        request('PUT', '/api/sponsor/the_sponsor', function(response){
+          console.log(response)
+          document.location.reload()
+        }, sponsorFormData)
+      })
+
+      request('GET', '/api/sponsor/the_sponsor/selections', function(response){
+        document.querySelector('input#url_template[type=text]').value = response.url_template
+        document.querySelector('input.image_url[type=text]').value = response.image_url
+        document.querySelector('div.img.image_url').style.backgroundImage = 'url('+ response.image_url + ')'
+        document.querySelector('input.horizontal').value = response.size.horizontal
+        document.querySelector('input.vertical').value = response.size.vertical
+      })
+
+      document.querySelector('.options').appendChild(send)
+    }
+
+    document.addEventListener('xDOMContentLoaded', function(){
+      // countPincodes('.available')
+
+      showCurrentOptions()
+      // showCurrentLocks()
     })
-
-    document.querySelector('.beacons').appendChild(send)
-  }
-
-  var showCurrentOptions = function(){
-    var send = document.createElement('input')
-    send.type = 'submit'
-    send.value = 'Guardar'
-    send.addEventListener('click', function(event){
-      event.preventDefault()
-      var sponsorFormData = new FormData()
-
-      var redemptionUrl = document.querySelector('input.url_template[type=text]').value
-      sponsorFormData.append('url_template', redemptionUrl)
-
-      var imageUrl = document.querySelector('input.image_url[type=text]').value
-      sponsorFormData.append('image_url', imageUrl)
-
-      var sizeHorizontal = document.querySelector('input.horizontal').value
-      sponsorFormData.append('size[horizontal]', sizeHorizontal)
-
-      var sizeVertical = document.querySelector('input.vertical').value
-      sponsorFormData.append('size[vertical]', sizeVertical)
-
-      request('PUT', '/api/sponsor/the_sponsor', function(response){
-        console.log(response)
-        document.location.reload()
-      }, sponsorFormData)
-    })
-
-    request('GET', '/api/sponsor/the_sponsor/selections', function(response){
-      document.querySelector('input.url_template[type=text]').value = response.url_template
-      document.querySelector('input.image_url[type=text]').value = response.image_url
-      document.querySelector('div.img.image_url').style.backgroundImage = 'url('+ response.image_url + ')'
-      document.querySelector('input.horizontal').value = response.size.horizontal
-      document.querySelector('input.vertical').value = response.size.vertical
-    })
-
-    document.querySelector('.options').appendChild(send)
-  }
-
-  document.addEventListener('DOMContentLoaded', function(){
-    countPincodes('.available')
-
-    showCurrentOptions()
-    showCurrentLocks()
-  })
-</script>
+  </script>
+</body>
+</html>
