@@ -1,8 +1,6 @@
 'use strict';
 
 var request = function(method, route, callback, body){
-  // console.log(arguments)
-  // return
   var xhr = new XMLHttpRequest()
   xhr.open(method, route)
   xhr.responseType = 'json'
@@ -24,7 +22,6 @@ var showCurrentLocks = function(){
 
   send.addEventListener('click', function(event){
     event.preventDefault()
-    var sponsorFormData = new FormData()
 
     request('DELETE', '/api/locks/all', function(_){
       request('DELETE', '/api/bounties/all', function(_){
