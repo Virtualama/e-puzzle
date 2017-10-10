@@ -109,314 +109,315 @@
   </aside>
 
   <section>
-  <div class="tab-content">
-    <div role="tabpanel" class="tab-pane fade in active" id="pincodes">
-      <div class="container">
-        <form action="/api/pincodes/upload" method="post" enctype="multipart/form-data">
-          <div class="row">
-            <div class="col-xs-12 col-sm-4">
-              <div class="well bs-component">
-                <div class="form-group">
-                  <label>Disponibles:</label>
-                  <span class="available"></span>
-                </div>
+    <div class="tab-content">
+      <div role="tabpanel" class="tab-pane fade in active" id="pincodes">
+        <div class="container">
+          <form action="/api/pincodes/upload" method="post" enctype="multipart/form-data">
+            <div class="row">
+              <div class="col-xs-12 col-sm-4">
+                <div class="well bs-component">
+                  <div class="form-group">
+                    <label>Disponibles:</label>
+                    <span class="available"></span>
+                  </div>
 
-                <div class="form-group">
-                  <label for="upload" class="btn btn-danger btn-block" >Elige un Archivo
-                  <input name="file" id="upload" type="file" accept=".csv" style="display:none">
-                  </label>
-                </div>
+                  <div class="form-group">
+                    <label for="upload" class="btn btn-danger btn-block" >Elige un Archivo
+                    <input name="file" id="upload" type="file" accept=".csv" style="display:none">
+                    </label>
+                  </div>
 
-                <div class="form-group">
-                  <input type="submit" value="Añadir" class="btn btn-danger btn-block">
+                  <div class="form-group">
+                    <input type="submit" value="Añadir" class="btn btn-danger btn-block">
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </form>
+          </form>
 
-        <div class="well bs-component">
-          <div class="form-group">
-            <label for="url_template">
-              URL para canjear pincodes (<span style="font-family: monospace; font-style: oblique; font-weight: normal">%{pincode}</span> será reemplazado por cada código):
-            </label>
-            <input type="text" placeholder="http://..." class="form-control url_template">
+          <div class="well bs-component">
+            <div class="form-group">
+              <label for="url_template">
+                URL para canjear pincodes (<span style="font-family: monospace; font-style: oblique; font-weight: normal">%{pincode}</span> será reemplazado por cada código):
+              </label>
+              <input type="text" placeholder="http://..." class="form-control url_template">
+            </div>
+
+            <div class="form-group">
+              <input type="submit" value="Guardar" class="btn btn-danger send">
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <div role="tabpanel" class="tab-pane fade" id="imagen">
+        <div class="container">
+          <div class="well">
+            <div class="form-group">
+              <label >
+                URL con la imagen a resolver (ha de ser cuadrada):
+              </label>
+              <input class="image_url form-control" type="text" placeholder="http://...">
+            </div>
+
+            <div class="form-group">
+              <div class="img image_url"></div>
+            </div>
+
+            <div class="row">
+              <div class="form-group col-xs-8 col-xs-offset-2">
+                <label>Losetas</label>
+                <div class="input-group">
+                  <input type="number" class="horizontal form-control">
+                  <span class="input-group-addon">X</span>
+                  <input type="number" class="vertical form-control">
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <input type="submit" value="Guardar" class="btn btn-danger send">
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <div role="tabpanel" class="tab-pane fade" id="balizas">
+        <div class="container">
+          <div class="well">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="panel panel-danger beacon">
+                <div class="panel-heading">
+                  1
+                </div>
+                <div class="panel-body">
+                  <div class="form-group">
+                    <div class="row">
+                      <div class="col-sm-4 col-md-6">
+                        <div class="input-group">
+                          <label class="input-group-addon">Loseta:</label>
+                          <input class="tile form-control" type="number" min=1 max=16>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-group lock">
+                    <label>Desbloqueo</label>
+                    <div class="input-group">
+                      <span class="input-group-addon">Tipo</span>
+                      <select class="form-control type">
+                        <option value="image">imagen</option>
+                        <option value="video">video</option>
+                      </select>
+                      <span class="input-group-addon">Tiempo</span>
+                      <input class="form-control time" type="number" min=1 max=60>
+                    </div>
+                    <div class="input-group">
+                      <span class="input-group-addon">URL</span>
+                      <input type="text" class="form-control asset" placeholder="http://">
+                    </div>
+                  </div>
+
+                  <div class="form-group bounty">
+                    <label>Contenido</label>
+                    <div class="input-group">
+                      <span class="input-group-addon">Tipo</span>
+                      <select class="form-control type">
+                        <option value="image">imagen</option>
+                        <option value="video">video</option>
+                      </select>
+                      <span class="input-group-addon">Tiempo</span>
+                      <input class="form-control time" type="number" min=1 max=60>
+                    </div>
+                    <div class="input-group">
+                      <span class="input-group-addon">URL</span>
+                      <input type="text" class="form-control asset" placeholder="http://">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="panel panel-danger beacon">
+                <div class="panel-heading">
+                  2
+                </div>
+                <div class="panel-body">
+                  <div class="form-group">
+                    <div class="row">
+                      <div class="col-sm-4 col-md-6">
+                        <div class="input-group">
+                          <label class="input-group-addon">Loseta:</label>
+                          <input class="tile form-control" type="number" min=1 max=16>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-group lock">
+                    <label>Desbloqueo</label>
+                    <div class="input-group">
+                      <span class="input-group-addon">Tipo</span>
+                      <select class="form-control type">
+                        <option value="image">imagen</option>
+                        <option value="video">video</option>
+                      </select>
+                      <span class="input-group-addon">Tiempo</span>
+                      <input class="form-control time" type="number" min=1 max=60>
+                    </div>
+                    <div class="input-group">
+                      <span class="input-group-addon">URL</span>
+                      <input type="text" class="form-control asset" placeholder="http://">
+                    </div>
+                  </div>
+
+                  <div class="form-group bounty">
+                    <label>Contenido</label>
+                    <div class="input-group">
+                      <span class="input-group-addon">Tipo</span>
+                      <select class="form-control type">
+                        <option value="image">imagen</option>
+                        <option value="video">video</option>
+                      </select>
+                      <span class="input-group-addon">Tiempo</span>
+                      <input class="form-control time" type="number" min=1 max=60>
+                    </div>
+                    <div class="input-group">
+                      <span class="input-group-addon">URL</span>
+                      <input type="text" class="form-control asset" placeholder="http://">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="panel panel-danger beacon">
+                <div class="panel-heading">
+                  3
+                </div>
+                <div class="panel-body">
+                  <div class="form-group">
+                    <div class="row">
+                      <div class="col-sm-4 col-md-6">
+                        <div class="input-group">
+                          <label class="input-group-addon">Loseta:</label>
+                          <input class="tile form-control" type="number" min=1 max=16>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-group lock">
+                    <label>Desbloqueo</label>
+                    <div class="input-group">
+                      <span class="input-group-addon">Tipo</span>
+                      <select class="form-control type">
+                        <option value="image">imagen</option>
+                        <option value="video">video</option>
+                      </select>
+                      <span class="input-group-addon">Tiempo</span>
+                      <input class="form-control time" type="number" min=1 max=60>
+                    </div>
+                    <div class="input-group">
+                      <span class="input-group-addon">URL</span>
+                      <input type="text" class="form-control asset" placeholder="http://">
+                    </div>
+                  </div>
+
+                  <div class="form-group bounty">
+                    <label>Contenido</label>
+                    <div class="input-group">
+                      <span class="input-group-addon">Tipo</span>
+                      <select class="form-control type">
+                        <option value="image">imagen</option>
+                        <option value="video">video</option>
+                      </select>
+                      <span class="input-group-addon">Tiempo</span>
+                      <input class="form-control time" type="number" min=1 max=60>
+                    </div>
+                    <div class="input-group">
+                      <span class="input-group-addon">URL</span>
+                      <input type="text" class="form-control asset" placeholder="http://">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="panel panel-danger beacon">
+                <div class="panel-heading">
+                  4
+                </div>
+                <div class="panel-body">
+                  <div class="form-group">
+                    <div class="row">
+                      <div class="col-sm-4 col-md-6">
+                        <div class="input-group">
+                          <label class="input-group-addon">Loseta:</label>
+                          <input class="tile form-control" type="number" min=1 max=16>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-group lock">
+                    <label>Desbloqueo</label>
+                    <div class="input-group">
+                      <span class="input-group-addon">Tipo</span>
+                      <select class="form-control type">
+                        <option value="image">imagen</option>
+                        <option value="video">video</option>
+                      </select>
+                      <span class="input-group-addon">Tiempo</span>
+                      <input class="form-control time" type="number" min=1 max=60>
+                    </div>
+                    <div class="input-group">
+                      <span class="input-group-addon">URL</span>
+                      <input type="text" class="form-control asset" placeholder="http://">
+                    </div>
+                  </div>
+
+                  <div class="form-group bounty">
+                    <label>Contenido</label>
+                    <div class="input-group">
+                      <span class="input-group-addon">Tipo</span>
+                      <select class="form-control type">
+                        <option value="image">imagen</option>
+                        <option value="video">video</option>
+                      </select>
+                      <span class="input-group-addon">Tiempo</span>
+                      <input class="form-control time" type="number" min=1 max=60>
+                    </div>
+                    <div class="input-group">
+                      <span class="input-group-addon">URL</span>
+                      <input type="text" class="form-control asset" placeholder="http://">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
 
           <div class="form-group">
             <input type="submit" value="Guardar" class="btn btn-danger send">
           </div>
-        </div>
-
-      </div>
-    </div>
-    <div role="tabpanel" class="tab-pane fade" id="imagen">
-      <div class="container">
-        <div class="well">
-          <div class="form-group">
-            <label >
-              URL con la imagen a resolver (ha de ser cuadrada):
-            </label>
-            <input class="image_url form-control" type="text" placeholder="http://...">
-          </div>
-
-          <div class="form-group">
-            <div class="img image_url"></div>
-          </div>
-
-          <div class="row">
-            <div class="form-group col-xs-8 col-xs-offset-2">
-              <label>Losetas</label>
-              <div class="input-group">
-                <input type="number" class="horizontal form-control">
-                <span class="input-group-addon">X</span>
-                <input type="number" class="vertical form-control">
-              </div>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <input type="submit" value="Guardar" class="btn btn-danger send">
           </div>
 
         </div>
       </div>
-    </div>
-    <div role="tabpanel" class="tab-pane fade" id="balizas">
-      <div class="container">
-        <div class="well">
-        <div class="row">
-          <div class="col-md-6">
-            <div class="panel panel-danger beacon">
-              <div class="panel-heading">
-                1
-              </div>
-              <div class="panel-body">
-                <div class="form-group">
-                  <div class="row">
-                    <div class="col-sm-4 col-md-6">
-                      <div class="input-group">
-                        <label class="input-group-addon">Loseta:</label>
-                        <input class="tile form-control" type="number" min=1 max=16>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="form-group lock">
-                  <label>Desbloqueo</label>
-                  <div class="input-group">
-                    <span class="input-group-addon">Tipo</span>
-                    <select class="form-control type">
-                      <option value="image">imagen</option>
-                      <option value="video">video</option>
-                    </select>
-                    <span class="input-group-addon">Tiempo</span>
-                    <input class="form-control time" type="number" min=1 max=60>
-                  </div>
-                  <div class="input-group">
-                    <span class="input-group-addon">URL</span>
-                    <input type="text" class="form-control asset" placeholder="http://">
-                  </div>
-                </div>
-
-                <div class="form-group bounty">
-                  <label>Contenido</label>
-                  <div class="input-group">
-                    <span class="input-group-addon">Tipo</span>
-                    <select class="form-control type">
-                      <option value="image">imagen</option>
-                      <option value="video">video</option>
-                    </select>
-                    <span class="input-group-addon">Tiempo</span>
-                    <input class="form-control time" type="number" min=1 max=60>
-                  </div>
-                  <div class="input-group">
-                    <span class="input-group-addon">URL</span>
-                    <input type="text" class="form-control asset" placeholder="http://">
-                  </div>
-                </div>
-              </div>
+      <div role="tabpanel" class="tab-pane fade" id="metricas">
+        <div class="container">
+          <div class="well bs-component">
+            <div class="form-group">
+              <h1>No hay suficientes datos de juegos..</h1>
+              <input type="button" class="btn btn-danger" value="Descargar CSV">
             </div>
-          </div>
-          <div class="col-md-6">
-            <div class="panel panel-danger beacon">
-              <div class="panel-heading">
-                2
-              </div>
-              <div class="panel-body">
-                <div class="form-group">
-                  <div class="row">
-                    <div class="col-sm-4 col-md-6">
-                      <div class="input-group">
-                        <label class="input-group-addon">Loseta:</label>
-                        <input class="tile form-control" type="number" min=1 max=16>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="form-group lock">
-                  <label>Desbloqueo</label>
-                  <div class="input-group">
-                    <span class="input-group-addon">Tipo</span>
-                    <select class="form-control type">
-                      <option value="image">imagen</option>
-                      <option value="video">video</option>
-                    </select>
-                    <span class="input-group-addon">Tiempo</span>
-                    <input class="form-control time" type="number" min=1 max=60>
-                  </div>
-                  <div class="input-group">
-                    <span class="input-group-addon">URL</span>
-                    <input type="text" class="form-control asset" placeholder="http://">
-                  </div>
-                </div>
-
-                <div class="form-group bounty">
-                  <label>Contenido</label>
-                  <div class="input-group">
-                    <span class="input-group-addon">Tipo</span>
-                    <select class="form-control type">
-                      <option value="image">imagen</option>
-                      <option value="video">video</option>
-                    </select>
-                    <span class="input-group-addon">Tiempo</span>
-                    <input class="form-control time" type="number" min=1 max=60>
-                  </div>
-                  <div class="input-group">
-                    <span class="input-group-addon">URL</span>
-                    <input type="text" class="form-control asset" placeholder="http://">
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="panel panel-danger beacon">
-              <div class="panel-heading">
-                3
-              </div>
-              <div class="panel-body">
-                <div class="form-group">
-                  <div class="row">
-                    <div class="col-sm-4 col-md-6">
-                      <div class="input-group">
-                        <label class="input-group-addon">Loseta:</label>
-                        <input class="tile form-control" type="number" min=1 max=16>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="form-group lock">
-                  <label>Desbloqueo</label>
-                  <div class="input-group">
-                    <span class="input-group-addon">Tipo</span>
-                    <select class="form-control type">
-                      <option value="image">imagen</option>
-                      <option value="video">video</option>
-                    </select>
-                    <span class="input-group-addon">Tiempo</span>
-                    <input class="form-control time" type="number" min=1 max=60>
-                  </div>
-                  <div class="input-group">
-                    <span class="input-group-addon">URL</span>
-                    <input type="text" class="form-control asset" placeholder="http://">
-                  </div>
-                </div>
-
-                <div class="form-group bounty">
-                  <label>Contenido</label>
-                  <div class="input-group">
-                    <span class="input-group-addon">Tipo</span>
-                    <select class="form-control type">
-                      <option value="image">imagen</option>
-                      <option value="video">video</option>
-                    </select>
-                    <span class="input-group-addon">Tiempo</span>
-                    <input class="form-control time" type="number" min=1 max=60>
-                  </div>
-                  <div class="input-group">
-                    <span class="input-group-addon">URL</span>
-                    <input type="text" class="form-control asset" placeholder="http://">
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="panel panel-danger beacon">
-              <div class="panel-heading">
-                4
-              </div>
-              <div class="panel-body">
-                <div class="form-group">
-                  <div class="row">
-                    <div class="col-sm-4 col-md-6">
-                      <div class="input-group">
-                        <label class="input-group-addon">Loseta:</label>
-                        <input class="tile form-control" type="number" min=1 max=16>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="form-group lock">
-                  <label>Desbloqueo</label>
-                  <div class="input-group">
-                    <span class="input-group-addon">Tipo</span>
-                    <select class="form-control type">
-                      <option value="image">imagen</option>
-                      <option value="video">video</option>
-                    </select>
-                    <span class="input-group-addon">Tiempo</span>
-                    <input class="form-control time" type="number" min=1 max=60>
-                  </div>
-                  <div class="input-group">
-                    <span class="input-group-addon">URL</span>
-                    <input type="text" class="form-control asset" placeholder="http://">
-                  </div>
-                </div>
-
-                <div class="form-group bounty">
-                  <label>Contenido</label>
-                  <div class="input-group">
-                    <span class="input-group-addon">Tipo</span>
-                    <select class="form-control type">
-                      <option value="image">imagen</option>
-                      <option value="video">video</option>
-                    </select>
-                    <span class="input-group-addon">Tiempo</span>
-                    <input class="form-control time" type="number" min=1 max=60>
-                  </div>
-                  <div class="input-group">
-                    <span class="input-group-addon">URL</span>
-                    <input type="text" class="form-control asset" placeholder="http://">
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <input type="submit" value="Guardar" class="btn btn-danger send">
-        </div>
-        </div>
-
-      </div>
-    </div>
-    <div role="tabpanel" class="tab-pane fade" id="metricas">
-      <div class="container">
-        <div class="well bs-component">
-          <div class="form-group">
-            <h1>No hay suficientes datos de juegos..</h1>
           </div>
         </div>
       </div>
     </div>
-  </div>
   </section>
   <script type="text/javascript" src="/scripts/scripts.js"> </script>
 </body>
