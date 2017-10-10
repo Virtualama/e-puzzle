@@ -141,11 +141,11 @@
             <label for="url_template">
               URL para canjear pincodes (<span style="font-family: monospace; font-style: oblique; font-weight: normal">%{pincode}</span> será reemplazado por cada código):
             </label>
-            <input id="url_template" type="text" placeholder="http://..." class="form-control">
+            <input type="text" placeholder="http://..." class="form-control url_template">
           </div>
 
           <div class="form-group">
-            <input type="submit" value="Guardar" class="btn btn-danger">
+            <input type="submit" value="Guardar" class="btn btn-danger send">
           </div>
         </div>
 
@@ -177,7 +177,7 @@
           </div>
 
           <div class="form-group">
-            <input type="submit" value="Guardar" class="btn btn-danger">
+            <input type="submit" value="Guardar" class="btn btn-danger send">
           </div>
 
         </div>
@@ -402,7 +402,7 @@
         </div>
 
         <div class="form-group">
-          <input type="submit" value="Guardar" class="btn btn-danger">
+          <input type="submit" value="Guardar" class="btn btn-danger send">
         </div>
         </div>
 
@@ -420,135 +420,6 @@
     </div>
   </div>
   </section>
-  <script type="text/javascript" >
-    var request = function(method, route, callback, body){
-      var xhr = new XMLHttpRequest()
-      xhr.open(method, route)
-      xhr.responseType = 'json'
-      xhr.addEventListener('load', function(event){
-        if (callback)
-          callback(event.target.response)
-      })
-      xhr.send(body)
-    }
-
-    var countPincodes = function(elementSelector){
-      request('GET', '/api/pincodes/count/', function(response){
-        document.querySelector(elementSelector).innerHTML = response.count
-      })
-    }
-
-    var showCurrentLocks = function(){
-      var send = document.createElement('input')
-      send.type = 'submit'
-      send.value = 'Guardar'
-      send.addEventListener('click', function(event){
-        event.preventDefault()
-        var sponsorFormData = new FormData()
-
-
-        request('DELETE', '/api/locks/all', function(_){
-          request('DELETE', '/api/bounties/all', function(_){
-            var updatedElements = 0
-
-            var updates = Array.prototype.forEach.call(document.querySelectorAll('.beacon'), function(beacon, idx, beacons){
-              var lockData = new FormData()
-              lockData.append('tile', beacon.querySelector('.tile').value)
-              lockData.append('type', beacon.querySelector('.lock .type').value)
-              lockData.append('time', beacon.querySelector('.lock .time').value)
-              lockData.append('asset', beacon.querySelector('.lock .asset').value)
-              lockData.append('image', 'all')
-              lockData.append('id', idx)
-
-              request('POST', '/api/locks', function(response){
-                updatedElements += 1
-                if (updatedElements >= beacons.length * 2)
-                  location.reload()
-              }, lockData)
-
-              var bountyData = new FormData()
-              bountyData.append('tile', beacon.querySelector('.tile').value)
-              bountyData.append('type', beacon.querySelector('.bounty .type').value)
-              bountyData.append('time', beacon.querySelector('.bounty .time').value)
-              bountyData.append('asset', beacon.querySelector('.bounty .asset').value)
-              bountyData.append('image', 'all')
-              bountyData.append('id', idx)
-
-              request('POST', '/api/bounties', function(response){
-                updatedElements += 1
-                if (updatedElements >= beacons.length * 2)
-                  location.reload()
-              }, bountyData)
-            })
-          })
-        })
-      })
-
-      request('GET', '/api/locks', function(locks){
-        request('GET', '/api/bounties', function(bounties){
-          var beacons = document.querySelectorAll('.beacon')
-
-          locks.list.forEach(function(lock, idx){
-            beacons[lock.id].querySelector('.tile').value = lock.tile
-            beacons[lock.id].querySelector('.lock .type').value = lock.type
-            beacons[lock.id].querySelector('.lock .time').value = lock.time
-            beacons[lock.id].querySelector('.lock .asset').value = lock.asset
-          })
-
-          bounties.list.forEach(function(bounty, idx){
-            beacons[bounty.id].querySelector('.bounty .type').value = bounty.type
-            beacons[bounty.id].querySelector('.bounty .time').value = bounty.time
-            beacons[bounty.id].querySelector('.bounty .asset').value = bounty.asset
-          })
-        })
-      })
-
-      document.querySelector('.beacons').appendChild(send)
-    }
-
-    var showCurrentOptions = function(){
-      var send = document.createElement('input')
-      send.type = 'submit'
-      send.value = 'Guardar'
-      send.addEventListener('click', function(event){
-        event.preventDefault()
-        var sponsorFormData = new FormData()
-
-        var redemptionUrl = document.querySelector('input.url_template[type=text]').value
-        sponsorFormData.append('url_template', redemptionUrl)
-
-        var imageUrl = document.querySelector('input.image_url[type=text]').value
-        sponsorFormData.append('image_url', imageUrl)
-
-        var sizeHorizontal = document.querySelector('input.horizontal').value
-        sponsorFormData.append('size[horizontal]', sizeHorizontal)
-
-        var sizeVertical = document.querySelector('input.vertical').value
-        sponsorFormData.append('size[vertical]', sizeVertical)
-
-        request('PUT', '/api/sponsor/the_sponsor', function(response){
-          console.log(response)
-          document.location.reload()
-        }, sponsorFormData)
-      })
-
-      request('GET', '/api/sponsor/the_sponsor/selections', function(response){
-        document.querySelector('input#url_template[type=text]').value = response.url_template
-        document.querySelector('input.image_url[type=text]').value = response.image_url
-        document.querySelector('div.img.image_url').style.backgroundImage = 'url('+ response.image_url + ')'
-        document.querySelector('input.horizontal').value = response.size.horizontal
-        document.querySelector('input.vertical').value = response.size.vertical
-      })
-
-      document.querySelector('.options').appendChild(send)
-    }
-
-    document.addEventListener('xDOMContentLoaded', function(){
-      // countPincodes('.available')
-
-      showCurrentOptions()
-      // showCurrentLocks()
-    })
-  </script>
+  <script type="text/javascript" src="/scripts/scripts.js"> </script>
 </body>
 </html>
