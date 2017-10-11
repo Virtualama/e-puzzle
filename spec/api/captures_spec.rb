@@ -103,4 +103,18 @@ describe 'API - Captures' do
     expect(assigned_pincode[user_id].code).to eq('pincode')
   end
 
+  it 'exports captures to csv' do
+    Repos::Captures.save user: user_id, tile: '5', centre: 'centre_id', image: :the_image_hash
+
+    get '/api/captures/export'
+
+    expect(last_response.headers).to include("Content-Disposition" => "attachment; filename=\"metrics.csv\"")
+
+    [user_id, '5', 'centre_id', 'the_image_hash'].each do |item|
+      expect(last_response.body).to include(item)
+    end
+
+    ap last_response.body
+  end
+
 end

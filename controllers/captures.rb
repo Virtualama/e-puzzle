@@ -37,4 +37,17 @@ Captures = Monster::CRUD.for Repos::Captures, '/captures' do
 
     ok
   end
+
+  get settings.prefix + '/export' do
+    attachment 'metrics.csv'
+
+    require 'csv'
+    csv_str = CSV.generate do |csv|
+      csv << [:user, :tile, :centre, :image, :timestamp]
+      settings.repo.all.each do |capture|
+        csv << [capture.user, capture.tile, capture.centre, capture.image, capture.created_at]
+      end
+    end
+  end
+
 end

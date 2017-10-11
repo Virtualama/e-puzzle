@@ -42,6 +42,7 @@ class Capture < DomainObject
   attribute :user, Types::String
   attribute :tile, Types::Coercible::Int
   attribute :image, Types::String
+  attribute :centre, Types::String.default('00')
   attribute :created_at, Types::Now
 end
 
