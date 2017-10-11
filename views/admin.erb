@@ -25,6 +25,9 @@
           href="https://fonts.googleapis.com/css?family=Montserrat"
           rel="stylesheet">
 
+  <link href="/css/login.css" rel="stylesheet">
+
+
   <style type="text/css">
     body {
       font-family: 'Montserrat'
@@ -58,6 +61,20 @@
       display: block;
       margin: 20px;
       font-size: 30px;
+    }
+
+    .navbar a.logout {
+      position: absolute;
+      right: 0;
+      top: 0;
+      height: 100%;
+      display: flex;
+      flex-direction: column-reverse;
+      text-decoration: none;
+    }
+
+    .navbar a.logout span {
+      font-size: inherit;
     }
 
     .nav-pills li a {
@@ -95,6 +112,9 @@
   <nav class="navbar navbar-red">
     <div class="container-fluid">
       <span>e-puzzle</span>
+      <a href="#" class="logout pull-right">
+        <span>Logout</span>
+      </a>
     </div>
   </nav>
 
@@ -419,6 +439,22 @@
       </div>
     </div>
   </section>
+
+  <div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+      <div class="loginmodal-container">
+        <h1>Login</h1>
+        <br>
+        <form>
+          <input type="text" name="user" placeholder="Usuario">
+          <input type="password" name="pass" placeholder="Contraseña">
+          <input type="submit" name="login" class="login loginmodal-submit" value="Login">
+        </form>
+      </div>
+    </div>
+  </div>
+
+
   <script type="text/javascript" src="/scripts/scripts.js"> </script>
 </body>
 </html>

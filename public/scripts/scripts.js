@@ -129,9 +129,50 @@ var showCurrentURL = function(){
   })
 }
 
-document.addEventListener('DOMContentLoaded', function(){
+var fillScreens = function(){
   countPincodes('.available')
   showImageOptions()
   showCurrentLocks()
   showCurrentURL()
+}
+
+var showLoginModal = function(){
+  $('#login-modal').modal({backdrop: 'static', keyboard: false})
+}
+
+var generateToken =  function(str) {
+  var hash = 0, i, chr
+
+  if (str.length === 0) return hash
+
+  for (i = 0; i < str.length; i++) {
+    chr   = str.charCodeAt(i)
+    hash  = ((hash << 5) - hash) + chr
+    hash |= 0
+  }
+
+  return hash
+}
+
+document.addEventListener('DOMContentLoaded', function(){
+
+  $(document).on('click', '.logout', function(e){
+    e.preventDefault()
+    localStorage.removeItem('gluglu-token')
+    document.location.reload(true)
+  })
+
+  $(document).on('click', '.loginmodal-submit', function(e){
+    e.preventDefault()
+    var token = generateToken($('[name=user]').val() + ':' + $('[name=pass]').val())
+    localStorage.setItem('gluglu-token', token)
+    document.location.reload()
+  })
+
+  if (localStorage.getItem('gluglu-token') === '1757309193') {
+    fillScreens()
+  } else {
+    showLoginModal()
+  }
 })
+
