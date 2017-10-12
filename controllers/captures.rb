@@ -20,6 +20,8 @@ Captures = Monster::CRUD.for Repos::Captures, '/captures' do
     size = Repos::Sponsor.find(id: :the_sponsor).first.size
     total_tiles = size.horizontal * size.vertical
 
+    MetricsLogger.full_unlock params[:user] if total_captures_for_image == total_tiles - 1
+
     halt ok if total_captures_for_image < total_tiles
 
     MetricsLogger.complete params[:user], params[:image]

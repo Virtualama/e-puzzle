@@ -14,6 +14,12 @@ class MetricsLogger
       })
     end
 
+    def full_unlock user
+      keen_publish(:full_unlocks, {
+        user: user
+      })
+    end
+
     def complete user, image
       keen_publish(:completes, {
         user: user,
@@ -23,7 +29,7 @@ class MetricsLogger
 
     private
       def keen_publish collection, data
-        return if ENV['RACK_ENV'] == 'test'
+        # return if ENV['RACK_ENV'] == 'test'
 
         if defined?(EventMachine) && EventMachine.reactor_running?
           ap :async
