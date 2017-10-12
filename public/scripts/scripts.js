@@ -158,18 +158,18 @@ document.addEventListener('DOMContentLoaded', function(){
 
   $(document).on('click', '.logout', function(e){
     e.preventDefault()
-    localStorage.removeItem('gluglu-token')
+    localStorage.removeItem('epuzzle-token')
     document.location.reload(true)
   })
 
   $(document).on('click', '.loginmodal-submit', function(e){
     e.preventDefault()
     var token = generateToken($('[name=user]').val() + ':' + $('[name=pass]').val())
-    localStorage.setItem('gluglu-token', token)
+    localStorage.setItem('epuzzle-token', token)
     document.location.reload()
   })
 
-  if (localStorage.getItem('gluglu-token') === '1757309193') {
+  if (localStorage.getItem('epuzzle-token') === '1757309193') {
     fillScreens()
   } else {
     showLoginModal()
