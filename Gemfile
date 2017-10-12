@@ -8,9 +8,7 @@ gem 'dry-types'
 gem 'dry-struct'
 gem 'dry-validation'
 gem 'mongo'
-gem 'configuration'
 gem 'awesome_print'
-gem 'oily_png'
 gem 'thin'
 
 group :test do
