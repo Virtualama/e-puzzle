@@ -22,6 +22,8 @@ Captures = Monster::CRUD.for Repos::Captures, '/captures' do
 
     halt ok if total_captures_for_image < total_tiles
 
+    MetricsLogger.complete params[:user], params[:image]
+
     pincode_to_be_assigned = Repos::Pincodes.find(assigned: false).first
     Repos::Pincodes.update pincode_to_be_assigned.id, assigned: true
 

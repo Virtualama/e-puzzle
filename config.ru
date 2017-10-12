@@ -1,5 +1,6 @@
 require 'ap'
 require 'rack/cors'
+require './metrics_logger'
 require './controllers/meta_controller'
 require './repos'
 require './controllers/pincodes'

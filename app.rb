@@ -109,6 +109,8 @@ class App < Monster::Controller
       reason: :unexisting_lock
     }.to_json) unless lock
 
+    MetricsLogger.unlock player, lock_number, centre
+
     image_hash = Repos::Sponsor.find(id: :the_sponsor).first.image_hash
 
     captures = Repos::Captures.find(user: player, tile: lock.tile, image: image_hash).length

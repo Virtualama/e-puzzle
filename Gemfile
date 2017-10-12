@@ -10,6 +10,8 @@ gem 'dry-validation'
 gem 'mongo'
 gem 'awesome_print'
 gem 'thin'
+gem 'keen'
+gem 'em-http-request'
 
 group :test do
   gem 'rspec'
