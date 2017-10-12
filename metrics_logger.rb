@@ -29,7 +29,7 @@ class MetricsLogger
 
     private
       def keen_publish collection, data
-        # return if ENV['RACK_ENV'] == 'test'
+        return if ENV['RACK_ENV'] == 'test'
 
         if defined?(EventMachine) && EventMachine.reactor_running?
           ap :async
