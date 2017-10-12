@@ -169,6 +169,12 @@ document.addEventListener('DOMContentLoaded', function(){
     document.location.reload()
   })
 
+  $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+    var target = $(e.target).attr("href") // activated tab
+    if (target === '#metricas')
+      drawStats()
+  });
+
   if (localStorage.getItem('epuzzle-token') === '1757309193') {
     fillScreens()
   } else {
