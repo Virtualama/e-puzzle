@@ -8,9 +8,9 @@ connection = Mongo::Client.new(mongo_url)
 
 Repos = Module.new
 
-Repos::Users = MetaRepo.for User, connection[:users]
-Repos::Captures = MetaRepo.for Capture, connection[:captures]
-Repos::Pincodes = MetaRepo.for Pincode, connection[:pincodes]
-Repos::Sponsor = MetaRepo.for Sponsor, connection[:sponsor]
-Repos::Locks = MetaRepo.for Lock, connection[:locks]
-Repos::Bounties = MetaRepo.for Lock, connection[:bounties]
+Repos::Users = MetaRepo.for User, connection[:monster_users]
+Repos::Captures = MetaRepo.for Capture, connection[:monster_captures]
+Repos::Pincodes = MetaRepo.for Pincode, connection[:monster_pincodes]
+Repos::Sponsor = MetaRepo.for Sponsor, connection[:monster_sponsor]
+Repos::Locks = MetaRepo.for Lock, connection[:monster_locks]
+Repos::Bounties = MetaRepo.for Lock, connection[:monster_bounties]
