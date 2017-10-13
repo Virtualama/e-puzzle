@@ -77,6 +77,7 @@ var drawStats = function(){
   unlocksByCentre('02')
   unlocksByCentre('03')
   unlocksByCentre('04')
+  unlocksByCentre('05')
 
   var fullyUnlocked = new Keen.Dataviz()
     .el("#fully-unlocked-day")
