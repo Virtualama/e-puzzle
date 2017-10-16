@@ -109,15 +109,26 @@ class App < Monster::Controller
       reason: :unexisting_lock
     }.to_json) unless lock
 
-    image_hash = Repos::Sponsor.find(id: :the_sponsor).first.image_hash
+    sponsor = Repos::Sponsor.find(id: :the_sponsor).first
+    image_hash = sponsor.image_hash
 
-    captures = Repos::Captures.find(user: player, tile: lock.tile, image: image_hash).length
+    captures_for_image = Repos::Captures.find(user: player, image: image_hash)
+
+    captures_for_tile = captures_for_image.count{ |capture|
+      capture.tile == lock.tile
+    }
 
     halt({
       status: :ok
-    }.to_json) if captures > 0
+    }.to_json) if captures_for_tile > 0
 
     MetricsLogger.unlock player, lock_number, centre
+
+    size = sponsor.size
+    total_tiles = size.horizontal * size.vertical
+
+    MetricsLogger.full_unlock player if captures_for_image.length == total_tiles - 1
+
     Repos::Captures.save(image: image_hash, user: player, tile: lock.tile)
 
     {
