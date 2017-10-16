@@ -90,7 +90,6 @@ var drawStats = function(){
   client
     .query("count", {
       event_collection: "full_unlocks",
-      group_by: ["image"],
       interval: "daily",
       timeframe: "this_30_days",
       timezone: "Europe/Paris"
