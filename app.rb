@@ -129,6 +129,15 @@ class App < Monster::Controller
     erb :admin
   end
 
+  get '/puzzle/index.html' do
+    player_id = params[:player_id]
+    cache_booster = Time.now.to_i
+
+    redirect to("http://#{request.host_with_port}/puzzle/index.html?t=#{cache_booster}&player_id=#{player_id}"), 301 if request.secure?
+
+    pass
+  end
+
   get '/puzzle/?' do
     player_id = params[:player_id]
     cache_booster = Time.now.to_i
