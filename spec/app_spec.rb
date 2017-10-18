@@ -70,7 +70,7 @@ describe App do
     end
 
     it 'gives an asset & unlock_url for a lock' do
-      Repos::Locks.save tile: '3', time: '10', asset: 'aaa', type: 'image', image: 'xxx', id: 1
+      Repos::Locks.save tile: '3', time: '10', asset: 'aaa', type: 'image', image: 'xxx', id: 0
 
       centre = 'WX'
       lock = '1'
@@ -84,8 +84,8 @@ describe App do
     end
 
     it 'gives an asset & unlock_url for a unlocked challenge' do
-      Repos::Locks.save tile: '3', time: '10', asset: 'aaa', type: 'image', image: 'xxx', id: 1
-      Repos::Bounties.save tile: '3', time: '10', asset: 'bounty', type: 'image', image: 'xxx', id: 1
+      Repos::Locks.save tile: '3', time: '10', asset: 'aaa', type: 'image', image: 'xxx', id: 0
+      Repos::Bounties.save tile: '3', time: '10', asset: 'bounty', type: 'image', image: 'xxx', id: 0
 
       centre = 'WX'
       lock = '1'
