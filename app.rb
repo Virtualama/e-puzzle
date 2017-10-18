@@ -57,7 +57,7 @@ class App < Monster::Controller
       reason: :invalid_beacon_minor_length
     }.to_json) if beacon.length != 3
 
-    lock_number = beacon[0].to_i
+    lock_number = beacon[0].to_i - 1
     centre = beacon[1..2]
 
     halt({
@@ -94,7 +94,7 @@ class App < Monster::Controller
       reason: :invalid_beacon_minor_length
     }.to_json) if beacon.length != 3
 
-    lock_number = beacon[0].to_i
+    lock_number = beacon[0].to_i - 1
     centre = beacon[1..2]
 
     halt({
@@ -122,7 +122,7 @@ class App < Monster::Controller
       status: :ok
     }.to_json) if captures_for_tile > 0
 
-    MetricsLogger.unlock player, lock_number, centre
+    MetricsLogger.unlock player, (lock_number + 1), centre
 
     size = sponsor.size
     total_tiles = size.horizontal * size.vertical
