@@ -129,7 +129,7 @@ class App < Monster::Controller
 
     MetricsLogger.full_unlock player if captures_for_image.length == total_tiles - 1
 
-    Repos::Captures.save(image: image_hash, user: player, tile: lock.tile)
+    Repos::Captures.save(image: image_hash, user: player, tile: lock.tile, centre: centre)
 
     {
       status: :ok
