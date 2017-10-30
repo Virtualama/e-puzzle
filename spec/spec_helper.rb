@@ -7,6 +7,7 @@ ENV['RACK_ENV'] = 'test'
 require File.join(File.dirname(__FILE__), '..', 'repos')
 require File.join(File.dirname(__FILE__), '..', 'controllers', 'meta_controller')
 require File.join(File.dirname(__FILE__), '..', 'app')
+require File.join(File.dirname(__FILE__), '..', 'metrics_logger')
 
 def app
   $app ||= Rack::Builder.parse_file(File.expand_path('../../config.ru', __FILE__)).first

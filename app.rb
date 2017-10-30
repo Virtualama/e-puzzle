@@ -127,7 +127,7 @@ class App < Monster::Controller
     size = sponsor.size
     total_tiles = size.horizontal * size.vertical
 
-    MetricsLogger.full_unlock player if captures_for_image.length == total_tiles - 1
+    MetricsLogger.full_unlock player if (captures_for_image.length + 1) == total_tiles - 1
 
     Repos::Captures.save(image: image_hash, user: player, tile: lock.tile, centre: centre)
 
